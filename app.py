@@ -1993,6 +1993,93 @@ def _render_oem_result(row, stock_df):
                 st.rerun()
 
 
+
+# ─── Catalogues externes par marque (sous-domaines 7zap + alternatives) ───
+_CATALOG_LINKS = {
+    "renault":    [("7zap Renault",      "https://renault.7zap.com/fr/europe/",          "#e8000d"),
+                   ("Espace AutoPieces",  "https://www.oscaro.com/catalog/renault",        "#0066cc"),
+                   ("AutoDoc",            "https://www.autodoc.fr/pieces-auto/renault",    "#1a73e8")],
+    "peugeot":    [("7zap Peugeot",       "https://peugeot.7zap.com/fr/europe/",           "#003189"),
+                   ("Oscaro Peugeot",     "https://www.oscaro.com/catalog/peugeot",        "#0066cc"),
+                   ("AutoDoc",            "https://www.autodoc.fr/pieces-auto/peugeot",    "#1a73e8")],
+    "citroen":    [("7zap Citroën",       "https://citroen.7zap.com/fr/europe/",           "#da0000"),
+                   ("Oscaro Citroën",     "https://www.oscaro.com/catalog/citroen",        "#0066cc"),
+                   ("AutoDoc",            "https://www.autodoc.fr/pieces-auto/citroen",    "#1a73e8")],
+    "dacia":      [("7zap Dacia",         "https://dacia.7zap.com/fr/europe/",             "#005ea8"),
+                   ("Oscaro Dacia",       "https://www.oscaro.com/catalog/dacia",          "#0066cc"),
+                   ("AutoDoc",            "https://www.autodoc.fr/pieces-auto/dacia",      "#1a73e8")],
+    "hyundai":    [("7zap Hyundai",       "https://hyundai.7zap.com/fr/europe/",           "#002c5f"),
+                   ("AutoDoc Hyundai",    "https://www.autodoc.fr/pieces-auto/hyundai",    "#1a73e8"),
+                   ("Oscaro",             "https://www.oscaro.com/catalog/hyundai",        "#0066cc")],
+    "kia":        [("7zap Kia",           "https://kia.7zap.com/fr/europe/",               "#05141f"),
+                   ("AutoDoc Kia",        "https://www.autodoc.fr/pieces-auto/kia",        "#1a73e8"),
+                   ("Oscaro",             "https://www.oscaro.com/catalog/kia",            "#0066cc")],
+    "toyota":     [("7zap Toyota",        "https://toyota.7zap.com/fr/europe/",            "#eb0a1e"),
+                   ("AutoDoc Toyota",     "https://www.autodoc.fr/pieces-auto/toyota",     "#1a73e8"),
+                   ("Oscaro",             "https://www.oscaro.com/catalog/toyota",         "#0066cc")],
+    "chevrolet":  [("7zap Chevrolet",     "https://chevrolet.7zap.com/fr/global/",         "#cf9507"),
+                   ("AutoDoc Chevrolet",  "https://www.autodoc.fr/pieces-auto/chevrolet",  "#1a73e8")],
+    "volkswagen": [("7zap VW Europe",     "https://volkswagen.7zap.com/fr/europe/",        "#001e50"),
+                   ("AutoDoc VW",         "https://www.autodoc.fr/pieces-auto/volkswagen", "#1a73e8"),
+                   ("Oscaro",             "https://www.oscaro.com/catalog/volkswagen",     "#0066cc")],
+    "fiat":       [("7zap Fiat",          "https://fiat.7zap.com/fr/europe/",              "#e63e24"),
+                   ("AutoDoc Fiat",       "https://www.autodoc.fr/pieces-auto/fiat",       "#1a73e8")],
+    "nissan":     [("7zap Nissan",        "https://nissan.7zap.com/fr/europe/",            "#c3002f"),
+                   ("AutoDoc Nissan",     "https://www.autodoc.fr/pieces-auto/nissan",     "#1a73e8")],
+    "ford":       [("7zap Ford",          "https://ford.7zap.com/fr/europe/",              "#003478"),
+                   ("AutoDoc Ford",       "https://www.autodoc.fr/pieces-auto/ford",       "#1a73e8")],
+    "bmw":        [("7zap BMW",           "https://bmw.7zap.com/fr/europe/",               "#0066b1"),
+                   ("AutoDoc BMW",        "https://www.autodoc.fr/pieces-auto/bmw",        "#1a73e8")],
+    "mercedes":   [("7zap Mercedes",      "https://mercedes-benz.7zap.com/fr/europe/",     "#333"),
+                   ("AutoDoc Mercedes",   "https://www.autodoc.fr/pieces-auto/mercedes-benz","#1a73e8")],
+}
+_CATALOG_DEFAULT = [
+    ("7zap — Catalogue général", "https://7zap.com/fr/catalog/cars/", "#ff6b35"),
+    ("AutoDoc — Toutes marques",  "https://www.autodoc.fr/",           "#1a73e8"),
+    ("Oscaro — Toutes marques",   "https://www.oscaro.com/",           "#0066cc"),
+]
+
+
+def _render_external_catalog_links(specs):
+    """Affiche les liens vers les catalogues OEM externes selon la marque."""
+    make    = specs.get("make", "").strip().lower()
+    model   = specs.get("model", "").strip()
+    year    = str(specs.get("year", "")).split("-")[0].strip()
+
+    links = _CATALOG_LINKS.get(make, _CATALOG_DEFAULT)
+
+    # Construire les boutons
+    btns_html = ""
+    for label, url, color in links:
+        # Pour 7zap avec sous-domaine : ajouter le modèle dans l'URL si possible
+        if "7zap.com" in url and model:
+            # Les sous-domaines 7zap ont leur propre navigation — pas de query string fiable
+            # On pointe vers la racine du sous-domaine (plus stable)
+            pass
+        btns_html += (
+            f'<a href="{url}" target="_blank" style="display:inline-block;'
+            f'background:{color};color:#fff;padding:7px 14px;border-radius:7px;'
+            f'font-size:.82rem;text-decoration:none;margin:0 4px 6px 0;'
+            f'font-weight:500">{label} ↗</a>'
+        )
+
+    vehicle_str = f"{specs.get('make','')} {model} ({year})" if model else specs.get("make","")
+
+    st.markdown(f"""
+    <div style="background:#f8f9fa;border-radius:10px;padding:12px 16px;margin-bottom:12px;
+                border-left:4px solid #ff6b35">
+      <div style="font-size:.8rem;color:#666;margin-bottom:8px">
+        📚 <b>Catalogues OEM en ligne</b> pour <b>{vehicle_str}</b>
+        — schémas éclatés, références constructeur, pièces adjacentes :
+      </div>
+      <div>{btns_html}</div>
+      <div style="font-size:.72rem;color:#999;margin-top:6px">
+        ⚠️ Ces sites sont des services tiers. En cas d'indisponibilité, essayez une autre alternative.
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+
 def show_identification():
     st.header("🔍 Identification de pièce")
     st.caption("Identifiez le véhicule du client et trouvez la pièce compatible avec référence OEM, dimensions et équivalences.")
@@ -2095,18 +2182,8 @@ def show_identification():
 
         _render_vehicle_card(specs, vin_display)
 
-        # Lien 7zap
-        make_7  = specs.get("make","").replace(" ","+")
-        model_7 = specs.get("model","").replace(" ","+")
-        year_7  = str(specs.get("year","")).split("-")[0].strip()
-        url_7   = f"https://www.7zap.com/fr/parts/?make={make_7}&model={model_7}&year={year_7}"
-        st.markdown(
-            f'<a href="{url_7}" target="_blank" style="display:inline-block;'
-            f'background:#ff6b35;color:#fff;padding:7px 16px;border-radius:8px;'
-            f'font-size:.84rem;text-decoration:none;margin-bottom:16px">'
-            f'📚 Schéma éclaté complet sur 7zap.com →</a>',
-            unsafe_allow_html=True
-        )
+        # ── Liens catalogues externes ──
+        _render_external_catalog_links(specs)
 
         st.markdown("---")
 
