@@ -2,7 +2,6 @@ streamlit
 pandas
 Pillow
 requests
+matplotlib
+fpdf
 openpyxl
-# PDF : installez l'un ou l'autre (reportlab recommandé)
-reportlab
-# fpdf2   # alternative si reportlab non disponible
