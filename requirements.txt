@@ -5,3 +5,4 @@ requests
 matplotlib
 fpdf
 openpyxl
+reportlab
