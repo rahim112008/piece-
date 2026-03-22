@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 ╔══════════════════════════════════════════════════════════════════════╗
-║        AUTO PIÈCES MAGHREB — Application Streamlit Complète          ║
+║        AUTO PIÈCES RAHIM   — Application Streamlit Complète          ║
 ║        Gestion de magasin de pièces détachées automobiles            ║
 ╠══════════════════════════════════════════════════════════════════════╣
 ║  INSTALLATION :                                                       ║
@@ -1527,14 +1527,60 @@ def show_settings():
 # ══════════════════════════════════════════════════════════════════════
 
 # ══════════════════════════════════════════════════════════════════════
+
+# ══════════════════════════════════════════════════════════════════════
 # ██████  IDENTIFICATION PIÈCE (Carte grise / VIN → OEM)
 # ══════════════════════════════════════════════════════════════════════
 
-OEM_DB_PATH = os.path.join(DATA_DIR, "oem_database.csv")
+OEM_DB_PATH       = os.path.join(DATA_DIR, "oem_database.csv")
+VEHICLE_SPECS_PATH= os.path.join(DATA_DIR, "vehicle_specs.csv")
+
+# Alias marques pour CarQuery (qui ne connaît pas Dacia, etc.)
+_MAKE_ALIASES = {
+    "dacia":      ["dacia", "renault"],
+    "chevrolet":  ["chevrolet", "opel", "vauxhall"],
+    "seat":       ["seat", "volkswagen"],
+    "skoda":      ["skoda", "volkswagen"],
+}
+
+# Specs complètes connues localement pour les moteurs courants (fallback)
+_ENGINE_KNOWN = {
+    # code_moteur : (cc, cyl, couple_Nm, carburant)
+    "K9K":  (1461, 4, 220, "Diesel"),
+    "H4M":  (1598, 4, 148, "Essence"),
+    "H4Bt": (898,  3, 135, "Essence"),
+    "H4D":  (999,  3, 160, "Essence"),
+    "H5Ht": (1330, 4, 240, "Essence"),
+    "K7M":  (1598, 4, 128, "Essence"),
+    "K7J":  (1390, 4, 112, "Essence"),
+    "K4M":  (1598, 4, 153, "Essence"),
+    "DV4":  (1398, 4, 160, "Diesel"),
+    "DV6":  (1560, 4, 215, "Diesel"),
+    "DW10": (1997, 4, 205, "Diesel"),
+    "EP6":  (1598, 4, 160, "Essence"),
+    "TU3":  (1360, 4, 118, "Essence"),
+    "G4EC": (1499, 4, 137, "Essence"),
+    "G4FC": (1591, 4, 154, "Essence"),
+    "G4FG": (1591, 4, 157, "Essence"),
+    "G4FA": (1396, 4, 132, "Essence"),
+    "D4EA": (1991, 4, 305, "Diesel"),
+    "D4FB": (1582, 4, 260, "Diesel"),
+    "1KR":  (998,  3,  93, "Essence"),
+    "1ND":  (1364, 4, 190, "Diesel"),
+    "1KD":  (2982, 4, 420, "Diesel"),
+    "2KD":  (2494, 4, 300, "Diesel"),
+    "Z14XER":(1364,4, 125, "Essence"),
+    "Z12XER":(1229,4, 110, "Essence"),
+    "BKD":  (1968, 4, 320, "Diesel"),
+    "BXE":  (1896, 4, 250, "Diesel"),
+    "BKP":  (1968, 4, 320, "Diesel"),
+    "K9K,1461": (1461, 4, 220, "Diesel"),
+}
+
 
 @st.cache_data(ttl=300)
 def load_oem_db():
-    """Charge la base OEM depuis CSV. Retourne DataFrame ou vide."""
+    """Charge la base OEM depuis CSV."""
     if os.path.exists(OEM_DB_PATH):
         try:
             df = pd.read_csv(OEM_DB_PATH, dtype=str)
@@ -1546,41 +1592,226 @@ def load_oem_db():
     return pd.DataFrame()
 
 
+@st.cache_data(ttl=300)
+def load_vehicle_specs():
+    """Charge la base locale de specs véhicules."""
+    if os.path.exists(VEHICLE_SPECS_PATH):
+        try:
+            df = pd.read_csv(VEHICLE_SPECS_PATH, dtype=str)
+            df["year_start"]      = pd.to_numeric(df["year_start"],      errors="coerce").fillna(1990).astype(int)
+            df["year_end"]        = pd.to_numeric(df["year_end"],        errors="coerce").fillna(2030).astype(int)
+            df["displacement_cc"] = pd.to_numeric(df["displacement_cc"], errors="coerce")
+            df["power_hp"]        = pd.to_numeric(df["power_hp"],        errors="coerce")
+            df["torque_nm"]       = pd.to_numeric(df["torque_nm"],       errors="coerce")
+            df["cylinders"]       = pd.to_numeric(df["cylinders"],       errors="coerce")
+            return df
+        except Exception:
+            pass
+    return pd.DataFrame()
+
+
+def lookup_local_specs(make, model, year, fuel_hint=""):
+    """
+    Cherche les specs dans la base locale vehicle_specs.csv.
+    Retourne la liste des versions trouvées (DataFrame).
+    """
+    df = load_vehicle_specs()
+    if df.empty:
+        return pd.DataFrame()
+
+    try:
+        y = int(str(year).strip()[:4]) if year else None
+    except (ValueError, TypeError):
+        y = None
+
+    mask = (df["make"].str.lower() == make.lower()) & \
+           (df["model"].str.lower().str.contains(model.lower().strip(), na=False))
+
+    if y:
+        mask = mask & (df["year_start"] <= y) & (df["year_end"] >= y)
+
+    if fuel_hint:
+        fh = fuel_hint.lower()
+        fuel_mask = df["fuel"].str.lower().str.contains(
+            "diesel" if "dies" in fh else ("ess" if "ess" in fh or "pet" in fh else fh),
+            na=False
+        )
+        if fuel_mask.any():
+            mask = mask & fuel_mask
+
+    return df[mask].reset_index(drop=True)
+
+
+def build_specs_from_local(row):
+    """Construit un dict specs à partir d'une ligne vehicle_specs."""
+    return {
+        "make":         str(row.get("make", "")),
+        "model":        str(row.get("model", "")),
+        "year":         str(row.get("year_start", "")),
+        "version":      str(row.get("version", "")),
+        "engine_code":  str(row.get("engine_code", "—")),
+        "engine_cc":    str(int(row["displacement_cc"])) if pd.notna(row.get("displacement_cc")) else "—",
+        "engine_cyl":   str(int(row["cylinders"])) if pd.notna(row.get("cylinders")) else "—",
+        "fuel":         str(row.get("fuel", "—")),
+        "power_hp":     str(int(row["power_hp"])) if pd.notna(row.get("power_hp")) else "—",
+        "torque_nm":    str(int(row["torque_nm"])) if pd.notna(row.get("torque_nm")) else "—",
+        "transmission": str(row.get("transmission", "—")),
+        "drive":        str(row.get("drive", "—")),
+        "body":         str(row.get("body", "—")),
+        "doors":        str(row.get("doors", "—")),
+        "seats":        str(row.get("seats", "—")),
+        "weight_kg":    str(row.get("weight_kg", "—")),
+        "notes":        str(row.get("notes", "")),
+        "source":       "Base locale",
+    }
+
+
+def enrich_specs_from_engine_code(specs):
+    """Complète les champs manquants (—) à partir du code moteur connu."""
+    ec = str(specs.get("engine_code", "")).strip()
+    if not ec or ec == "—":
+        return specs
+    # Chercher dans le dictionnaire (correspondance partielle)
+    for key, (cc, cyl, nm, fuel) in _ENGINE_KNOWN.items():
+        if key.upper() in ec.upper() or ec.upper().startswith(key.upper()):
+            if specs.get("engine_cc") in ("", "—", None):
+                specs["engine_cc"] = str(cc)
+            if specs.get("engine_cyl") in ("", "—", None):
+                specs["engine_cyl"] = str(cyl)
+            if specs.get("torque_nm") in ("", "—", None):
+                specs["torque_nm"] = str(nm)
+            if specs.get("fuel") in ("", "—", None):
+                specs["fuel"] = fuel
+            break
+    return specs
+
+
+def get_carquery_specs(make, model, year):
+    """Interroge CarQuery API avec gestion des aliases de marques."""
+    makes_to_try = [make.lower()]
+    for alias_key, aliases in _MAKE_ALIASES.items():
+        if make.lower() == alias_key:
+            makes_to_try = aliases
+            break
+
+    for try_make in makes_to_try:
+        try:
+            url = (f"https://www.carqueryapi.com/api/0.3/?callback=?"
+                   f"&cmd=getTrims&make={try_make}&model={model}&year={year}")
+            resp = requests.get(url, timeout=6,
+                                headers={"User-Agent": "Mozilla/5.0 AutoPiecesApp/1.0"})
+            if resp.status_code != 200:
+                continue
+            import json
+            text = resp.text.strip()
+            if text.startswith("?("):
+                text = text[2:-1]
+            elif text.startswith("?({"):
+                text = text[1:]
+            data = json.loads(text)
+            trims = data.get("Trims", [])
+            if not trims:
+                continue
+            t = trims[0]
+            result = {
+                "make":          t.get("model_make_id", make).title(),
+                "model":         t.get("model_name", model).title(),
+                "year":          t.get("model_year", year),
+                "engine_cc":     t.get("model_engine_cc", "—") or "—",
+                "engine_cyl":    t.get("model_engine_cyl", "—") or "—",
+                "fuel":          t.get("model_engine_fuel", "—") or "—",
+                "power_hp":      t.get("model_engine_power_ps", "—") or "—",
+                "torque_nm":     t.get("model_engine_torque_nm", "—") or "—",
+                "transmission":  t.get("model_transmission_type", "—") or "—",
+                "drive":         t.get("model_drive", "—") or "—",
+                "body":          t.get("model_body", "—") or "—",
+                "doors":         t.get("model_doors", "—") or "—",
+                "seats":         t.get("model_seats", "—") or "—",
+                "weight_kg":     t.get("model_weight_kg", "—") or "—",
+                "engine_code":   t.get("model_engine_type", "—") or "—",
+                "source":        f"CarQuery API ({try_make.title()})",
+            }
+            return result
+        except Exception:
+            continue
+    return None
+
+
+def get_nhtsa_full_specs(vin):
+    """Récupère les specs complètes NHTSA pour un VIN donné."""
+    try:
+        url = f"https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/{vin}?format=json"
+        resp = requests.get(url, timeout=6)
+        if resp.status_code != 200:
+            return None
+        results = resp.json().get("Results", [])
+        info = {r["Variable"]: r["Value"] for r in results
+                if r["Value"] not in (None, "", "0", "Not Applicable", "null")}
+        if not info.get("Make"):
+            return None
+        specs = {
+            "make":         info.get("Make", "").title(),
+            "model":        info.get("Model", "").title(),
+            "year":         info.get("Model Year", ""),
+            "engine_cc":    info.get("Displacement (CC)", "—") or "—",
+            "engine_cyl":   info.get("Number of Cylinders", "—") or "—",
+            "fuel":         info.get("Fuel Type - Primary", "—") or "—",
+            "engine_code":  info.get("Engine Model", "—") or "—",
+            "power_hp":     info.get("Engine Brake (hp) From", "—") or "—",
+            "transmission": info.get("Transmission Style", "—") or "—",
+            "drive":        info.get("Drive Type", "—") or "—",
+            "body":         info.get("Body Class", "—") or "—",
+            "doors":        info.get("Number of Doors", "—") or "—",
+            "plant":        info.get("Plant City", "—") or "—",
+            "country":      info.get("Plant Country", "—") or "—",
+            "torque_nm":    "—",
+            "source":       "NHTSA API",
+        }
+        # Enrichir depuis base locale si champs manquants
+        local = lookup_local_specs(specs["make"], specs["model"], specs["year"],
+                                   specs.get("fuel",""))
+        if not local.empty:
+            row = local.iloc[0]
+            for field, lfield in [("engine_cc","displacement_cc"),("engine_cyl","cylinders"),
+                                   ("torque_nm","torque_nm"),("transmission","transmission"),
+                                   ("drive","drive"),("body","body")]:
+                if specs.get(field) in ("","—") and pd.notna(row.get(lfield)):
+                    val = row[lfield]
+                    specs[field] = str(int(val)) if isinstance(val, float) and val == int(val) else str(val)
+        return enrich_specs_from_engine_code(specs)
+    except Exception:
+        return None
+
+
 def search_oem(make="", model="", year=None, category="", subcategory="", keyword=""):
     """Recherche dans la base OEM locale avec filtres combinés."""
     df = load_oem_db()
     if df.empty:
         return df
 
-    # Filtre marque
-    if make and make.lower() not in ("universel","tous",""):
+    if make and make.lower() not in ("universel", "tous", ""):
         mask_make = (df["make"].str.lower() == make.lower()) | \
                     (df["make"].str.lower() == "universel")
         df = df[mask_make]
 
-    # Filtre modèle
     if model:
         mask_model = df["model"].str.lower().str.contains(model.lower(), na=False) | \
-                     (df["model"].str.lower().isin(["tous","all"]))
+                     (df["model"].str.lower().isin(["tous", "all"]))
         df = df[mask_model]
 
-    # Filtre année
     if year:
         try:
-            y = int(year)
+            y = int(str(year).strip()[:4])
             df = df[(df["year_start"] <= y) & (df["year_end"] >= y)]
         except (ValueError, TypeError):
             pass
 
-    # Filtre catégorie
     if category:
         df = df[df["category"].str.lower() == category.lower()]
 
-    # Filtre sous-catégorie
     if subcategory:
         df = df[df["subcategory"].str.lower().str.contains(subcategory.lower(), na=False)]
 
-    # Recherche mot-clé (sur plusieurs champs)
     if keyword:
         kw = keyword.lower()
         mask_kw = (
@@ -1596,87 +1827,8 @@ def search_oem(make="", model="", year=None, category="", subcategory="", keywor
     return df.reset_index(drop=True)
 
 
-def get_carquery_specs(make, model, year):
-    """
-    Interroge CarQuery API (gratuite) pour les specs mécaniques complètes.
-    Retourne dict ou None.
-    """
-    try:
-        url = f"https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getTrims&make={make}&model={model}&year={year}"
-        resp = requests.get(url, timeout=6,
-                            headers={"User-Agent": "Mozilla/5.0 AutoPiecesApp/1.0"})
-        if resp.status_code != 200:
-            return None
-        # CarQuery renvoie JSONP — extraire le JSON
-        text = resp.text.strip()
-        if text.startswith("?("):
-            text = text[2:-1]
-        elif text.startswith("?({"):
-            text = text[1:]
-        import json
-        data = json.loads(text)
-        trims = data.get("Trims", [])
-        if not trims:
-            return None
-        # Prendre le premier trim pertinent
-        t = trims[0]
-        return {
-            "make":          t.get("model_make_id", make).title(),
-            "model":         t.get("model_name", model).title(),
-            "year":          t.get("model_year", year),
-            "engine_cc":     t.get("model_engine_cc", "—"),
-            "engine_cyl":    t.get("model_engine_cyl", "—"),
-            "fuel":          t.get("model_engine_fuel", "—"),
-            "power_hp":      t.get("model_engine_power_ps", "—"),
-            "torque_nm":     t.get("model_engine_torque_nm", "—"),
-            "transmission":  t.get("model_transmission_type", "—"),
-            "drive":         t.get("model_drive", "—"),
-            "body":          t.get("model_body", "—"),
-            "doors":         t.get("model_doors", "—"),
-            "seats":         t.get("model_seats", "—"),
-            "weight_kg":     t.get("model_weight_kg", "—"),
-            "engine_code":   t.get("model_engine_type", "—"),
-            "source":        "CarQuery API",
-        }
-    except Exception:
-        return None
-
-
-def get_nhtsa_full_specs(vin):
-    """Récupère les specs complètes NHTSA pour un VIN donné."""
-    try:
-        url = f"https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/{vin}?format=json"
-        resp = requests.get(url, timeout=6)
-        if resp.status_code != 200:
-            return None
-        results = resp.json().get("Results", [])
-        info = {r["Variable"]: r["Value"] for r in results
-                if r["Value"] not in (None, "", "0", "Not Applicable", "null")}
-        if not info.get("Make"):
-            return None
-        return {
-            "make":         info.get("Make", "").title(),
-            "model":        info.get("Model", "").title(),
-            "year":         info.get("Model Year", ""),
-            "engine_cc":    info.get("Displacement (CC)", "—"),
-            "engine_cyl":   info.get("Number of Cylinders", "—"),
-            "fuel":         info.get("Fuel Type - Primary", "—"),
-            "engine_code":  info.get("Engine Model", "—"),
-            "power_hp":     info.get("Engine Brake (hp) From", "—"),
-            "transmission": info.get("Transmission Style", "—"),
-            "drive":        info.get("Drive Type", "—"),
-            "body":         info.get("Body Class", "—"),
-            "doors":        info.get("Number of Doors", "—"),
-            "plant":        info.get("Plant City", "—"),
-            "country":      info.get("Plant Country", "—"),
-            "source":       "NHTSA API",
-        }
-    except Exception:
-        return None
-
-
-def _render_vehicle_card(specs, vin=""):
-    """Affiche la carte véhicule identifié."""
+def _render_vehicle_card(specs, vin="", versions=None):
+    """Affiche la carte véhicule identifié avec sélecteur de version si plusieurs."""
     make  = specs.get("make", "—")
     model = specs.get("model", "—")
     year  = specs.get("year", "—")
@@ -1688,54 +1840,45 @@ def _render_vehicle_card(specs, vin=""):
     tx    = specs.get("transmission", "—")
     drv   = specs.get("drive", "—")
     body  = specs.get("body", "—")
+    ver   = specs.get("version", "")
+    eng   = specs.get("engine_code", "—")
     src   = specs.get("source", "local")
 
-    fuel_icon = "⛽" if "ess" in str(fuel).lower() or "petrol" in str(fuel).lower() \
-                else ("🛢️" if "dies" in str(fuel).lower() else "🔋")
+    fuel_icon = ("⛽" if any(w in str(fuel).lower() for w in ["ess","pet","sp","gaz"])
+                 else ("🛢️" if "dies" in str(fuel).lower() else "🔋"))
+
+    def cell(label, val, unit=""):
+        v = f"{val}{' ' + unit if unit and val not in ('—','') else ''}"
+        return (f'<div style="background:rgba(255,255,255,.08);border-radius:8px;padding:8px 10px">'
+                f'<div style="font-size:.65rem;color:#aaa;text-transform:uppercase;letter-spacing:.5px">{label}</div>'
+                f'<div style="font-size:.95rem;font-weight:600">{v}</div></div>')
+
+    version_line = f' &nbsp;·&nbsp; <span style="color:#7ec8e3">{ver}</span>' if ver and ver not in ("nan","—","") else ""
+    engine_line  = f' &nbsp;·&nbsp; {eng}' if eng and eng not in ("nan","—","") else ""
+    vin_line = (f' &nbsp;·&nbsp; <code style="color:#7ec8e3;font-size:.8rem">{vin}</code>'
+                if vin else "")
 
     st.markdown(f"""
     <div style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);
-                border-radius:14px;padding:20px 24px;color:#fff;margin-bottom:16px;
-                border-left:4px solid #1a73e8">
-        <div style="font-size:1.5rem;font-weight:700;letter-spacing:.5px">
+                border-radius:14px;padding:20px 24px;color:#fff;margin-bottom:12px;
+                border-left:5px solid #1a73e8">
+        <div style="font-size:1.45rem;font-weight:700;letter-spacing:.4px">
             {make} {model}
         </div>
-        <div style="font-size:1rem;color:#aaa;margin-bottom:14px">
-            {year} &nbsp;·&nbsp; {fuel_icon} {fuel}
-            {"&nbsp;·&nbsp; VIN: <code style='color:#7ec8e3'>" + vin + "</code>" if vin else ""}
+        <div style="font-size:.9rem;color:#bbb;margin-bottom:14px">
+            {year} &nbsp;·&nbsp; {fuel_icon} {fuel}{version_line}{engine_line}{vin_line}
         </div>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
-            <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:8px 10px">
-                <div style="font-size:.7rem;color:#888;text-transform:uppercase;letter-spacing:.5px">Cylindrée</div>
-                <div style="font-size:1rem;font-weight:600">{cc} cc</div>
-            </div>
-            <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:8px 10px">
-                <div style="font-size:.7rem;color:#888;text-transform:uppercase;letter-spacing:.5px">Cylindres</div>
-                <div style="font-size:1rem;font-weight:600">{cyl}</div>
-            </div>
-            <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:8px 10px">
-                <div style="font-size:.7rem;color:#888;text-transform:uppercase;letter-spacing:.5px">Puissance</div>
-                <div style="font-size:1rem;font-weight:600">{hp} ch</div>
-            </div>
-            <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:8px 10px">
-                <div style="font-size:.7rem;color:#888;text-transform:uppercase;letter-spacing:.5px">Couple</div>
-                <div style="font-size:1rem;font-weight:600">{nm} Nm</div>
-            </div>
-            <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:8px 10px">
-                <div style="font-size:.7rem;color:#888;text-transform:uppercase;letter-spacing:.5px">Transmission</div>
-                <div style="font-size:.9rem;font-weight:600">{tx}</div>
-            </div>
-            <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:8px 10px">
-                <div style="font-size:.7rem;color:#888;text-transform:uppercase;letter-spacing:.5px">Traction</div>
-                <div style="font-size:.9rem;font-weight:600">{drv}</div>
-            </div>
-            <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:8px 10px">
-                <div style="font-size:.7rem;color:#888;text-transform:uppercase;letter-spacing:.5px">Carrosserie</div>
-                <div style="font-size:.9rem;font-weight:600">{body}</div>
-            </div>
-            <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:8px 10px">
-                <div style="font-size:.7rem;color:#888;text-transform:uppercase;letter-spacing:.5px">Source</div>
-                <div style="font-size:.8rem;color:#7ec8e3">{src}</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+            {cell("Cylindrée", cc, "cc")}
+            {cell("Cylindres", cyl)}
+            {cell("Puissance", hp, "ch")}
+            {cell("Couple", nm, "Nm")}
+            {cell("Transmission", tx)}
+            {cell("Traction", drv)}
+            {cell("Carrosserie", body)}
+            <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:8px 10px">
+                <div style="font-size:.65rem;color:#aaa;text-transform:uppercase;letter-spacing:.5px">Source</div>
+                <div style="font-size:.78rem;color:#7ec8e3">{src}</div>
             </div>
         </div>
     </div>
@@ -1744,89 +1887,96 @@ def _render_vehicle_card(specs, vin=""):
 
 def _render_oem_result(row, stock_df):
     """Affiche une fiche pièce OEM avec vérification stock."""
-    # Références OEM
-    refs = [str(row.get("oem_ref","")).strip()]
-    if str(row.get("oem_ref2","")).strip() and str(row.get("oem_ref2","")).strip() != "nan":
+    refs = [str(row.get("oem_ref", "")).strip()]
+    if str(row.get("oem_ref2", "")).strip() not in ("", "nan"):
         refs.append(str(row["oem_ref2"]).strip())
 
-    # Équivalences fabricants
     equivs = {}
     for fab, col in [("Bosch","equiv_bosch"),("Mann","equiv_mann"),
                      ("Febi","equiv_febi"),("Valeo","equiv_valeo"),("Sachs","equiv_sachs")]:
-        v = str(row.get(col,"")).strip()
+        v = str(row.get(col, "")).strip()
         if v and v != "nan":
             equivs[fab] = v
 
-    # Vérif stock local
+    # Vérification stock local (matching souple)
     stock_matches = []
     if not stock_df.empty:
-        kw = str(row.get("subcategory","")).lower()
+        kw_parts = [w for w in str(row.get("subcategory","")).lower().split() if len(w) > 3]
         make_r = str(row.get("make","")).lower()
-        model_r = str(row.get("model","")).lower()
         for _, sp in stock_df.iterrows():
             pn = str(sp.get("part_name","")).lower()
             pm = str(sp.get("make","")).lower()
-            if (make_r in pm or pm == "universel") and \
-               any(w in pn for w in kw.split() if len(w) > 3):
+            if (make_r in pm or pm in ("universel","tous")) and \
+               any(w in pn for w in kw_parts):
                 stock_matches.append(sp)
 
-    stock_html = ""
+    # HTML stock
     if stock_matches:
         items_html = "".join([
             f'<div style="display:flex;justify-content:space-between;align-items:center;'
-            f'padding:6px 10px;background:rgba(0,180,100,.1);border-radius:6px;margin-bottom:4px">'
-            f'<span style="font-size:.85rem"><b>{s["part_name"]}</b> — Réf: {s.get("part_number","?")}</span>'
-            f'<span style="font-size:.85rem;color:{"#2e7d32" if s["stock"]>0 else "#c00"}">'
-            f'{"✅ " + str(s["stock"]) + " en stock" if s["stock"]>0 else "❌ Rupture"}</span>'
-            f'<span style="font-size:.85rem;color:#1a73e8;font-weight:600">{format_price(s["price"])}</span></div>'
+            f'padding:5px 10px;background:#e8f5e9;border-radius:6px;margin-bottom:3px;gap:8px">'
+            f'<span style="font-size:.83rem;flex:1"><b>{s["part_name"]}</b>'
+            f'<span style="color:#666"> — Réf: {s.get("part_number","?")}</span></span>'
+            f'<span style="font-size:.83rem;color:{"#2e7d32" if int(s["stock"])>0 else "#c00"};white-space:nowrap">'
+            f'{"✅ " + str(s["stock"]) + " en stock" if int(s["stock"])>0 else "❌ Rupture"}</span>'
+            f'<span style="font-size:.85rem;color:#1a73e8;font-weight:700;white-space:nowrap">'
+            f'{format_price(float(s["price"]))}</span></div>'
             for s in stock_matches
         ])
-        stock_html = f'<div style="margin-top:10px"><div style="font-size:.8rem;color:#2e7d32;font-weight:600;margin-bottom:4px">✅ Trouvé dans votre stock :</div>{items_html}</div>'
+        stock_html = (f'<div style="margin-top:10px">'
+                      f'<div style="font-size:.78rem;color:#2e7d32;font-weight:600;margin-bottom:4px">'
+                      f'✅ Disponible dans votre stock :</div>{items_html}</div>')
     else:
-        stock_html = '<div style="margin-top:8px;font-size:.8rem;color:#888">⚠️ Aucune correspondance directe dans votre stock local.</div>'
+        stock_html = ('<div style="margin-top:8px;font-size:.8rem;color:#999">'
+                      '⚠️ Non trouvé dans votre stock local — peut être commandé.</div>')
 
     equivs_html = ""
     if equivs:
-        eq_items = " &nbsp;|&nbsp; ".join([f'<b>{k}</b>: {v}' for k,v in equivs.items()])
-        equivs_html = f'<div style="font-size:.8rem;color:#555;margin-top:6px">🔄 Équivalences : {eq_items}</div>'
+        eq_items = " &nbsp;·&nbsp; ".join([f'<b>{k}</b>: {v}' for k, v in equivs.items()])
+        equivs_html = (f'<div style="font-size:.78rem;color:#555;margin-top:6px;'
+                       f'padding:5px 8px;background:#f5f5f5;border-radius:6px">'
+                       f'🔄 Équivalences : {eq_items}</div>')
 
-    dims = str(row.get("dimensions","")).strip()
+    dims   = str(row.get("dimensions","")).strip()
     weight = str(row.get("weight_g","")).strip()
-    notes = str(row.get("notes","")).strip()
+    notes  = str(row.get("notes","")).strip()
     engine = str(row.get("engine_code","")).strip()
-    fuel = str(row.get("fuel","")).strip()
+    fuel   = str(row.get("fuel","")).strip()
+
+    dims_block = f'<span style="margin-right:16px"><span style="color:#888">📐</span> <b>{dims}</b></span>' if dims and dims != "nan" else ""
+    wgt_block  = f'<span style="margin-right:16px"><span style="color:#888">⚖️</span> <b>{weight} g</b></span>' if weight and weight != "nan" else ""
+    notes_block= f'<span style="color:#888">📝</span> {notes}' if notes and notes != "nan" else ""
+    eng_tag    = f'<span style="background:#e8f0fe;color:#1a73e8;padding:1px 7px;border-radius:4px;font-size:.75rem;margin-left:6px">{engine}</span>' if engine and engine != "nan" else ""
+    fuel_tag   = f'<span style="background:#fff3e0;color:#e65100;padding:1px 7px;border-radius:4px;font-size:.75rem;margin-left:4px">{fuel}</span>' if fuel and fuel != "nan" else ""
 
     st.markdown(f"""
-    <div style="border:1px solid #e0e0e0;border-radius:12px;padding:16px 18px;
-                margin-bottom:12px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06)">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start">
-            <div>
-                <div style="font-size:1rem;font-weight:700;color:#1a1a2e">{row.get("part_name","")}</div>
-                <div style="font-size:.8rem;color:#666;margin-top:2px">
+    <div style="border:1px solid #e8eaf6;border-radius:12px;padding:15px 18px;
+                margin-bottom:10px;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.05)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+            <div style="flex:1">
+                <div style="font-size:1rem;font-weight:700;color:#1a1a2e">
+                    {row.get("part_name","")}
+                    {eng_tag}{fuel_tag}
+                </div>
+                <div style="font-size:.78rem;color:#666;margin-top:3px">
                     {row.get("category","")} › {row.get("subcategory","")}
-                    {" &nbsp;|&nbsp; Moteur: <b>" + engine + "</b>" if engine and engine != "nan" else ""}
-                    {" &nbsp;|&nbsp; " + fuel if fuel and fuel != "nan" else ""}
                 </div>
             </div>
-            <div style="text-align:right">
-                {"".join([f'<div style="font-size:.95rem;font-weight:700;color:#1a73e8;background:#e8f0fe;padding:3px 10px;border-radius:6px;margin-bottom:3px">{r}</div>' for r in refs])}
+            <div style="text-align:right;flex-shrink:0">
+                {"".join([f'<div style="font-size:.9rem;font-weight:700;color:#1a73e8;background:#e8f0fe;padding:2px 10px;border-radius:6px;margin-bottom:3px;white-space:nowrap">{r}</div>' for r in refs])}
             </div>
         </div>
-        <div style="display:flex;gap:16px;margin-top:10px;flex-wrap:wrap">
-            {f'<div style="font-size:.82rem"><span style="color:#888">📐 Dimensions :</span> <b>{dims}</b></div>' if dims and dims != "nan" else ""}
-            {f'<div style="font-size:.82rem"><span style="color:#888">⚖️ Poids :</span> <b>{weight} g</b></div>' if weight and weight != "nan" else ""}
-            {f'<div style="font-size:.82rem"><span style="color:#888">📝 Note :</span> {notes}</div>' if notes and notes != "nan" else ""}
-        </div>
+        {f'<div style="font-size:.82rem;margin-top:8px;display:flex;flex-wrap:wrap;gap:4px">{dims_block}{wgt_block}{notes_block}</div>' if any([dims_block, wgt_block, notes_block]) else ""}
         {equivs_html}
         {stock_html}
     </div>
     """, unsafe_allow_html=True)
 
-    # Bouton ajouter au panier si en stock
-    for s in stock_matches:
-        if s["stock"] > 0:
+    # Boutons ajouter au panier
+    for idx, s in enumerate(stock_matches):
+        if int(s["stock"]) > 0:
             if st.button(f"🛒 Ajouter « {s['part_name']} » au panier",
-                         key=f"oem_cart_{s['id']}_{row.get('oem_ref','')}"):
+                         key=f"oem_cart_{s['id']}_{row.get('oem_ref','')}_{idx}"):
                 cart = st.session_state.setdefault("cart", [])
                 found = False
                 for item in cart:
@@ -1837,105 +1987,124 @@ def _render_oem_result(row, stock_df):
                 if not found:
                     cart.append({"part_id":s["id"],"part_name":s["part_name"],
                                  "part_number":s.get("part_number",""),
-                                 "unit_price":s["price"],"quantity":1,
-                                 "total":s["price"],"stock":s["stock"]})
-                st.success(f"✅ Ajouté au panier !")
+                                 "unit_price":float(s["price"]),"quantity":1,
+                                 "total":float(s["price"]),"stock":int(s["stock"])})
+                st.success(f"✅ « {s['part_name']} » ajouté au panier !")
                 st.rerun()
 
 
 def show_identification():
     st.header("🔍 Identification de pièce")
-    st.caption("Identifiez le véhicule du client et trouvez la pièce compatible avec référence OEM et dimensions exactes.")
+    st.caption("Identifiez le véhicule du client et trouvez la pièce compatible avec référence OEM, dimensions et équivalences.")
 
     # ── Étape 1 : Identifier le véhicule ──
     st.subheader("1️⃣ Identifier le véhicule")
 
-    method = st.radio("Méthode d'identification", ["VIN (numéro de châssis)", "Manuel (carte grise)"],
+    method = st.radio("Méthode", ["🪪 Carte grise (saisie manuelle)", "📟 VIN (numéro de châssis)"],
                       horizontal=True, key="id_method")
 
-    vehicle_specs = None
-
-    if method == "VIN (numéro de châssis)":
-        col1, col2 = st.columns([3, 1])
-        vin = col1.text_input("VIN (17 caractères)", max_chars=17,
-                               placeholder="Ex: VF1BB1B0H45123456", key="id_vin").strip().upper()
-        if col2.button("🔎 Décoder", key="id_decode_btn"):
-            if not validate_vin(vin):
-                st.error("VIN invalide — 17 caractères alphanumériques, sans I/O/Q.")
-            else:
-                with st.spinner("Décodage VIN en cours..."):
-                    # 1. Essai NHTSA (specs complètes)
-                    nhtsa = get_nhtsa_full_specs(vin)
-                    if nhtsa:
-                        # Enrichir avec CarQuery si dispo
-                        cq = get_carquery_specs(nhtsa["make"], nhtsa["model"], nhtsa["year"])
-                        if cq:
-                            nhtsa.update({k: v for k, v in cq.items() if v not in (None,"—","")})
-                        vehicle_specs = nhtsa
-                    else:
-                        # Fallback décodage local
-                        local = decode_vin(vin)
-                        if local:
-                            vehicle_specs = local
-                            vehicle_specs["source"] = "local"
-                        else:
-                            st.error("Véhicule non reconnu. Essayez la méthode manuelle.")
-                if vehicle_specs:
-                    st.session_state["id_vehicle"] = vehicle_specs
-                    st.session_state["id_vin"] = vin
-
-    else:  # Manuel
+    # ─── MÉTHODE CARTE GRISE ───
+    if "Carte" in method:
         st.markdown("Renseignez les informations depuis la **carte grise** du client :")
         c1, c2, c3 = st.columns(3)
-        makes_list = [""] + get_makes()
-        sel_make  = c1.selectbox("Marque (D.1 carte grise)", makes_list, key="id_man_make")
-        sel_model = c2.text_input("Modèle (D.2)", key="id_man_model")
-        sel_year  = c3.text_input("Année 1ère MEC (B)", placeholder="Ex: 2010", key="id_man_year")
+        sel_make  = c1.selectbox("Marque  (D.1)", [""]+get_makes(), key="id_man_make")
+        sel_model = c2.text_input("Modèle  (D.2)", placeholder="Ex: Duster", key="id_man_model")
+        sel_year  = c3.text_input("1ère MEC  (B)", placeholder="Ex: 2014", key="id_man_year")
         c4, c5, c6 = st.columns(3)
-        sel_fuel  = c4.selectbox("Énergie (P.3)", ["","Diesel","Essence","GPL","Hybride"], key="id_man_fuel")
-        sel_cc    = c5.text_input("Cylindrée cm³ (P.1)", placeholder="Ex: 1461", key="id_man_cc")
-        sel_hp    = c6.text_input("Puissance DIN ch (P.2)", placeholder="Ex: 85", key="id_man_hp")
+        sel_fuel = c4.selectbox("Énergie  (P.3)", ["","Diesel","Essence","GPL","Hybride"], key="id_man_fuel")
+        sel_cc   = c5.text_input("Cylindrée cm³  (P.1)", placeholder="Ex: 1598", key="id_man_cc")
+        sel_hp   = c6.text_input("Puissance ch  (P.2)", placeholder="Ex: 105", key="id_man_hp")
 
-        if st.button("✅ Valider les informations", key="id_man_btn"):
+        if st.button("✅ Rechercher les specs du véhicule", key="id_man_btn", type="primary"):
             if not sel_make or not sel_model:
-                st.error("Marque et modèle obligatoires.")
+                st.error("Marque et modèle sont obligatoires.")
             else:
-                with st.spinner("Recherche des specs..."):
-                    cq = get_carquery_specs(sel_make, sel_model, sel_year) if sel_year else None
-                specs = cq if cq else {}
-                vehicle_specs = {
-                    "make":        sel_make,
-                    "model":       sel_model,
-                    "year":        sel_year or specs.get("year","?"),
-                    "fuel":        sel_fuel or specs.get("fuel","—"),
-                    "engine_cc":   sel_cc   or specs.get("engine_cc","—"),
-                    "power_hp":    sel_hp   or specs.get("power_hp","—"),
-                    "engine_cyl":  specs.get("engine_cyl","—"),
-                    "torque_nm":   specs.get("torque_nm","—"),
-                    "transmission":specs.get("transmission","—"),
-                    "drive":       specs.get("drive","—"),
-                    "body":        specs.get("body","—"),
-                    "source":      "Carte grise" + (" + CarQuery" if cq else ""),
-                }
-                st.session_state["id_vehicle"] = vehicle_specs
-                st.session_state.pop("id_vin", None)
+                with st.spinner("Recherche des spécifications..."):
+                    # 1. Base locale (priorité)
+                    local_rows = lookup_local_specs(sel_make, sel_model, sel_year, sel_fuel)
 
-    # Afficher la fiche véhicule si identifié
+                    if not local_rows.empty:
+                        # Plusieurs versions possibles → on garde la 1ère, on propose le choix
+                        base_row = local_rows.iloc[0]
+                        specs = build_specs_from_local(base_row)
+                        # Surcharger avec les valeurs saisies si plus précises
+                        if sel_year: specs["year"] = sel_year
+                        if sel_cc:   specs["engine_cc"] = sel_cc
+                        if sel_hp:   specs["power_hp"]  = sel_hp
+                        if sel_fuel: specs["fuel"]       = sel_fuel
+                        if len(local_rows) > 1:
+                            specs["_versions"] = local_rows.to_dict("records")
+                    else:
+                        # 2. Fallback CarQuery API
+                        cq = get_carquery_specs(sel_make, sel_model, sel_year) if sel_year else None
+                        specs = cq if cq else {}
+                        specs.setdefault("make", sel_make)
+                        specs.setdefault("model", sel_model)
+                        specs["year"]      = sel_year  or specs.get("year", "?")
+                        specs["fuel"]      = sel_fuel  or specs.get("fuel", "—")
+                        specs["engine_cc"] = sel_cc    or specs.get("engine_cc", "—")
+                        specs["power_hp"]  = sel_hp    or specs.get("power_hp", "—")
+                        specs["source"]    = ("CarQuery API" if cq else "Carte grise (manuelle)")
+                        specs = enrich_specs_from_engine_code(specs)
+
+                    st.session_state["id_vehicle"]  = specs
+                    st.session_state.pop("id_vin", None)
+                    st.session_state.pop("id_search_done", None)
+
+    # ─── MÉTHODE VIN ───
+    else:
+        col1, col2 = st.columns([3, 1])
+        vin = col1.text_input("VIN (17 caractères)", max_chars=17,
+                               placeholder="Ex: UU1BSDB1542147834", key="id_vin_input").strip().upper()
+        if col2.button("🔎 Décoder le VIN", key="id_decode_btn"):
+            if not validate_vin(vin):
+                st.error("VIN invalide — 17 caractères alphanumériques, sans I / O / Q.")
+            else:
+                with st.spinner("Décodage en cours..."):
+                    specs = get_nhtsa_full_specs(vin)
+                    if not specs:
+                        local_vin = decode_vin(vin)
+                        if local_vin:
+                            specs = local_vin
+                            specs["source"] = "Décodage local"
+                if specs:
+                    st.session_state["id_vehicle"] = specs
+                    st.session_state["id_vin"] = vin
+                    st.session_state.pop("id_search_done", None)
+                else:
+                    st.error("Véhicule non reconnu. Utilisez la méthode Carte grise.")
+
+    # ─── AFFICHAGE FICHE VÉHICULE ───
     if st.session_state.get("id_vehicle"):
-        vehicle_specs = st.session_state["id_vehicle"]
-        vin_display   = st.session_state.get("id_vin","")
-        _render_vehicle_card(vehicle_specs, vin_display)
+        specs       = st.session_state["id_vehicle"]
+        vin_display = st.session_state.get("id_vin", "")
+        versions    = specs.pop("_versions", None)
 
-        # Lien 7zap.com
-        make_7 = vehicle_specs.get("make","").replace(" ","+")
-        model_7 = vehicle_specs.get("model","").replace(" ","+")
-        year_7 = str(vehicle_specs.get("year","")).split("-")[0].strip()
-        url_7zap = f"https://www.7zap.com/fr/parts/?make={make_7}&model={model_7}&year={year_7}"
+        # Sélecteur de version si plusieurs disponibles
+        if versions and len(versions) > 1:
+            ver_labels = [f"{v['version']} — {v['fuel']}" for v in versions]
+            sel_ver_idx = st.selectbox("Plusieurs versions trouvées — choisissez :",
+                                       range(len(ver_labels)),
+                                       format_func=lambda i: ver_labels[i],
+                                       key="id_ver_sel")
+            if st.button("Appliquer cette version", key="id_ver_apply"):
+                specs = build_specs_from_local(
+                    pd.Series(versions[sel_ver_idx])
+                )
+                st.session_state["id_vehicle"] = specs
+
+        _render_vehicle_card(specs, vin_display)
+
+        # Lien 7zap
+        make_7  = specs.get("make","").replace(" ","+")
+        model_7 = specs.get("model","").replace(" ","+")
+        year_7  = str(specs.get("year","")).split("-")[0].strip()
+        url_7   = f"https://www.7zap.com/fr/parts/?make={make_7}&model={model_7}&year={year_7}"
         st.markdown(
-            f'<a href="{url_7zap}" target="_blank" style="display:inline-block;'
+            f'<a href="{url_7}" target="_blank" style="display:inline-block;'
             f'background:#ff6b35;color:#fff;padding:7px 16px;border-radius:8px;'
-            f'font-size:.85rem;text-decoration:none;margin-bottom:16px">'
-            f'📚 Ouvrir le catalogue éclaté sur 7zap.com →</a>',
+            f'font-size:.84rem;text-decoration:none;margin-bottom:16px">'
+            f'📚 Schéma éclaté complet sur 7zap.com →</a>',
             unsafe_allow_html=True
         )
 
@@ -1946,50 +2115,41 @@ def show_identification():
 
         oem_df = load_oem_db()
         if oem_df.empty:
-            st.warning("⚠️ Base OEM non trouvée. Placez `oem_database.csv` dans le dossier `data/`.")
+            st.warning("⚠️ Fichier `oem_database.csv` introuvable dans `data/`. "
+                       "Téléchargez-le et placez-le dans le dossier `data/`.")
         else:
             ca, cb, cc_col = st.columns(3)
             cats = sorted(oem_df["category"].dropna().unique().tolist())
             sel_cat = ca.selectbox("Catégorie", [""]+cats, key="id_cat")
-
-            sub_cats = []
-            if sel_cat:
-                sub_cats = sorted(oem_df[oem_df["category"]==sel_cat]["subcategory"].dropna().unique().tolist())
-            sel_sub = cb.selectbox("Sous-catégorie", [""]+sub_cats, key="id_sub") if sub_cats else ""
-
-            kw = cc_col.text_input("Mot-clé libre", placeholder="Ex: filtre, plaquettes...", key="id_kw")
+            sub_cats = sorted(oem_df[oem_df["category"]==sel_cat]["subcategory"]
+                              .dropna().unique().tolist()) if sel_cat else []
+            sel_sub = cb.selectbox("Sous-catégorie", [""]+sub_cats,
+                                    key="id_sub") if sub_cats else cc_col.text_input("Sous-catégorie", key="id_sub_free")
+            kw = cc_col.text_input("Mot-clé libre", placeholder="filtre, plaquettes, courroie...",
+                                    key="id_kw")
 
             if st.button("🔍 Rechercher les pièces compatibles", type="primary", key="id_search"):
                 results = search_oem(
-                    make     = vehicle_specs.get("make",""),
-                    model    = vehicle_specs.get("model",""),
-                    year     = vehicle_specs.get("year",""),
-                    category = sel_cat,
+                    make        = specs.get("make",""),
+                    model       = specs.get("model",""),
+                    year        = specs.get("year",""),
+                    category    = sel_cat,
                     subcategory = sel_sub,
-                    keyword  = kw
+                    keyword     = kw
                 )
-                st.session_state["id_results"] = results.to_dict("records") if not results.empty else []
-                st.session_state["id_search_done"] = True
+                st.session_state["id_results"]    = results.to_dict("records") if not results.empty else []
+                st.session_state["id_search_done"]= True
 
-            # Afficher résultats
             if st.session_state.get("id_search_done"):
                 results_list = st.session_state.get("id_results", [])
-                results_df   = pd.DataFrame(results_list) if results_list else pd.DataFrame()
-
-                if results_df.empty:
-                    st.info("Aucune pièce OEM trouvée pour ces critères. Essayez un mot-clé plus général ou élargissez les filtres.")
+                if not results_list:
+                    st.info("Aucune pièce OEM trouvée. Essayez un mot-clé plus général ou supprimez les filtres.")
                 else:
-                    st.success(f"✅ {len(results_df)} pièce(s) compatible(s) trouvée(s)")
+                    st.success(f"✅ {len(results_list)} pièce(s) compatible(s)")
+                    stock_local = get_all_parts({"make": specs.get("make","")})
+                    for row in [pd.Series(r) for r in results_list]:
+                        _render_oem_result(row, stock_local)
 
-                    # Charger le stock pour comparaison
-                    stock_df_all = get_all_parts({
-                        "make": vehicle_specs.get("make",""),
-                    })
-
-                    for _, row in results_df.iterrows():
-                        _render_oem_result(row, stock_df_all)
-
-        # Bouton réinitialiser
         st.markdown("---")
         if st.button("🔄 Nouvelle identification", key="id_reset"):
             for k in ["id_vehicle","id_vin","id_results","id_search_done"]:
@@ -1997,19 +2157,354 @@ def show_identification():
             st.rerun()
 
     else:
-        # Message d'accueil
         st.markdown("""
-        <div style="background:#f0f4ff;border-radius:12px;padding:24px;text-align:center;margin-top:16px">
-            <div style="font-size:2rem">🚗</div>
-            <div style="font-size:1rem;color:#333;margin-top:8px">
-                Saisissez le <b>VIN</b> ou les informations de la <b>carte grise</b> pour commencer.
+        <div style="background:#f0f4ff;border-radius:12px;padding:28px;text-align:center;margin-top:12px">
+            <div style="font-size:2.2rem">🚗</div>
+            <div style="font-size:1rem;color:#333;margin-top:8px;font-weight:500">
+                Commencez par identifier le véhicule du client
             </div>
-            <div style="font-size:.85rem;color:#666;margin-top:8px">
-                Le système identifiera le véhicule et vous proposera les pièces compatibles
-                avec leurs références OEM, dimensions et disponibilité en stock.
+            <div style="font-size:.85rem;color:#666;margin-top:6px;max-width:420px;margin-left:auto;margin-right:auto">
+                Choisissez <b>Carte grise</b> pour saisir manuellement les informations,
+                ou <b>VIN</b> pour un décodage automatique complet.
+            </div>
+            <div style="font-size:.78rem;color:#888;margin-top:10px">
+                Marques supportées : Renault · Peugeot · Citroën · Dacia · Hyundai · Kia · Toyota · Chevrolet · VW · Fiat
             </div>
         </div>
         """, unsafe_allow_html=True)
+
+
+# ══════════════════════════════════════════════════════════════════════
+# ██████  FICHE PIÈCE — Style Mister-Auto
+# ══════════════════════════════════════════════════════════════════════
+
+PARTS_CATALOG_JSON = os.path.join(DATA_DIR, "parts_catalog.json")
+
+FAB_COLORS = {
+    "LUK":      ("#e8f0fe","#1a73e8","#0d47a1"),
+    "VALEO":    ("#fff3e0","#e65100","#bf360c"),
+    "BOSCH":    ("#fce4ec","#c62828","#b71c1c"),
+    "MANN":     ("#e8f5e9","#2e7d32","#1b5e20"),
+    "CONTITECH":("#f3e5f5","#6a1b9a","#4a148c"),
+    "KYB":      ("#fff8e1","#f57f17","#e65100"),
+    "FEBI":     ("#e0f2f1","#00695c","#004d40"),
+    "SACHS":    ("#e8eaf6","#283593","#1a237e"),
+    "BREMBO":   ("#fce4ec","#ad1457","#880e4f"),
+    "NGK":      ("#e1f5fe","#01579b","#003b72"),
+    "GATES":    ("#f1f8e9","#33691e","#1b5e20"),
+    "SKF":      ("#e3f2fd","#1565c0","#0d47a1"),
+    "NTN":      ("#fafafa","#424242","#212121"),
+}
+FAB_DEFAULT = ("#f5f5f5","#616161","#424242")
+
+
+@st.cache_data(ttl=600)
+def load_parts_catalog():
+    """Charge le catalogue JSON des fiches pièces détaillées."""
+    if os.path.exists(PARTS_CATALOG_JSON):
+        try:
+            import json
+            with open(PARTS_CATALOG_JSON, encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return []
+
+
+def search_parts_catalog(keyword="", category="", fabricant="", vehicle=""):
+    """Recherche dans le catalogue de fiches pièces."""
+    catalog = load_parts_catalog()
+    results = []
+    kw = keyword.lower().strip()
+    for p in catalog:
+        if category and p.get("category","").lower() != category.lower():
+            continue
+        if fabricant and p.get("fabricant","").lower() != fabricant.lower():
+            continue
+        if vehicle:
+            vehs = " | ".join(p.get("compatible_vehicles",[]))
+            if vehicle.lower() not in vehs.lower():
+                continue
+        if kw:
+            haystack = " ".join([
+                p.get("part_name",""), p.get("ref_fabricant",""),
+                p.get("ref_fabricant2",""), p.get("description",""),
+                str(p.get("oem_refs",{})), " ".join(p.get("compatible_vehicles",[])),
+                str(p.get("equivs",{}))
+            ]).lower()
+            if kw not in haystack:
+                continue
+        results.append(p)
+    return results
+
+
+def _fab_badge(fabricant):
+    bg, text, border = FAB_COLORS.get(fabricant.upper(), FAB_DEFAULT)
+    return (f'<span style="background:{bg};color:{text};border:1px solid {border};'
+            f'padding:3px 10px;border-radius:4px;font-weight:700;font-size:.82rem;'
+            f'letter-spacing:.5px">{fabricant}</span>')
+
+
+def render_part_sheet(part, show_cart_btn=True):
+    """
+    Affiche une fiche pièce complète style Mister-Auto.
+    part : dict depuis parts_catalog.json
+    """
+    fab     = part.get("fabricant","")
+    ref     = part.get("ref_fabricant","")
+    ref2    = part.get("ref_fabricant2","")
+    name    = part.get("part_name","")
+    cat     = part.get("category","")
+    subcat  = part.get("subcategory","")
+    desc    = part.get("description","")
+    specs   = part.get("specifications", {})
+    weight  = part.get("weight_g","")
+    notes   = part.get("notes","")
+    oem     = part.get("oem_refs", {})
+    equivs  = part.get("equivs", {})
+    vehs    = part.get("compatible_vehicles", [])
+
+    bg, txt, brd = FAB_COLORS.get(fab.upper(), FAB_DEFAULT)
+
+    # ── En-tête pièce ──
+    st.markdown(f"""
+    <div style="background:#fff;border:1px solid #e8eaf6;border-radius:14px;
+                padding:22px 24px;margin-bottom:16px;
+                box-shadow:0 2px 10px rgba(0,0,0,.07)">
+
+      <!-- Breadcrumb -->
+      <div style="font-size:.75rem;color:#999;margin-bottom:10px">
+        Catalogue &rsaquo; {cat} &rsaquo; {subcat}
+      </div>
+
+      <!-- Titre + badge fabricant -->
+      <div style="display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap">
+        <div style="background:{bg};border:2px solid {brd};border-radius:10px;
+                    padding:14px 18px;min-width:100px;text-align:center;flex-shrink:0">
+          <div style="font-size:1.1rem;font-weight:800;color:{txt};letter-spacing:.5px">{fab}</div>
+          <div style="font-size:.95rem;font-weight:700;color:{brd};margin-top:2px">{ref}</div>
+          {f'<div style="font-size:.72rem;color:{txt};opacity:.7">Alt: {ref2}</div>' if ref2 else ""}
+        </div>
+        <div style="flex:1">
+          <h2 style="margin:0 0 6px;font-size:1.2rem;font-weight:700;color:#1a1a2e">{name}</h2>
+          <p style="margin:0;font-size:.88rem;color:#555;line-height:1.5">{desc}</p>
+          {f'<div style="margin-top:8px;font-size:.8rem;background:#fff8e1;color:#e65100;padding:5px 10px;border-radius:6px;display:inline-block">⚠️ {notes}</div>' if notes else ""}
+        </div>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # ── 3 colonnes : Specs | Réfs OEM | Équivalences ──
+    col1, col2, col3 = st.columns([2, 2, 2])
+
+    with col1:
+        st.markdown("**📐 Caractéristiques techniques**")
+        if specs:
+            rows_html = "".join([
+                f'<tr><td style="color:#666;font-size:.82rem;padding:4px 8px 4px 0;'
+                f'border-bottom:1px solid #f0f0f0;white-space:nowrap">{k}</td>'
+                f'<td style="font-weight:600;font-size:.82rem;padding:4px 0;'
+                f'border-bottom:1px solid #f0f0f0">{v}</td></tr>'
+                for k, v in specs.items()
+            ])
+            if weight:
+                rows_html += (f'<tr><td style="color:#666;font-size:.82rem;padding:4px 8px 4px 0">Poids</td>'
+                              f'<td style="font-weight:600;font-size:.82rem">{weight} g</td></tr>')
+            st.markdown(f'<table style="width:100%;border-collapse:collapse">{rows_html}</table>',
+                        unsafe_allow_html=True)
+        else:
+            st.caption("Caractéristiques non renseignées")
+
+    with col2:
+        st.markdown("**🏷️ Références constructeur (OEM)**")
+        if oem:
+            for marque, ref_oem in oem.items():
+                st.markdown(f"""
+                <div style="display:flex;justify-content:space-between;align-items:center;
+                            padding:5px 8px;background:#f8f9fa;border-radius:6px;margin-bottom:4px">
+                  <span style="font-size:.82rem;color:#555;font-weight:500">{marque}</span>
+                  <code style="font-size:.82rem;color:#1a73e8;background:#e8f0fe;
+                               padding:2px 7px;border-radius:4px">{ref_oem}</code>
+                </div>
+                """, unsafe_allow_html=True)
+        else:
+            st.caption("Références OEM non renseignées")
+        st.markdown("")
+
+    with col3:
+        st.markdown("**🔄 Références équivalentes**")
+        if equivs:
+            for fab_eq, ref_eq in equivs.items():
+                bg_eq, txt_eq, _ = FAB_COLORS.get(fab_eq.upper(), FAB_DEFAULT)
+                st.markdown(f"""
+                <div style="display:flex;justify-content:space-between;align-items:center;
+                            padding:5px 8px;background:{bg_eq};border-radius:6px;margin-bottom:4px">
+                  <span style="font-size:.82rem;color:{txt_eq};font-weight:600">{fab_eq}</span>
+                  <code style="font-size:.82rem;color:#333;background:rgba(255,255,255,.7);
+                               padding:2px 7px;border-radius:4px">{ref_eq}</code>
+                </div>
+                """, unsafe_allow_html=True)
+        else:
+            st.caption("Équivalences non renseignées")
+
+    st.markdown("---")
+
+    # ── Véhicules compatibles ──
+    nb = len(vehs)
+    st.markdown(f"**🚗 Véhicules compatibles ({nb})**")
+    if not vehs:
+        st.caption("Compatibilité non renseignée")
+        return
+
+    # Grouper par marque
+    from collections import defaultdict
+    by_make = defaultdict(list)
+    for v in vehs:
+        make = v.split(" ")[0] if v else "Autre"
+        by_make[make].append(v)
+
+    makes_sorted = sorted(by_make.keys())
+    n_cols = min(len(makes_sorted), 3)
+    cols = st.columns(n_cols)
+    for i, make in enumerate(makes_sorted):
+        with cols[i % n_cols]:
+            items_html = "".join([
+                f'<div style="padding:3px 0;border-bottom:1px solid #f5f5f5;'
+                f'font-size:.82rem;color:#333">'
+                f'<span style="color:#1a73e8;margin-right:5px">✓</span>{v}</div>'
+                for v in by_make[make]
+            ])
+            st.markdown(f"""
+            <div style="background:#f8f9fa;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+              <div style="font-weight:700;color:#1a1a2e;font-size:.85rem;
+                          margin-bottom:6px;border-bottom:2px solid #1a73e8;padding-bottom:4px">
+                🚘 {make}
+              </div>
+              {items_html}
+            </div>
+            """, unsafe_allow_html=True)
+
+    st.markdown("")
+
+    # ── Vérification dans le stock local ──
+    if show_cart_btn:
+        st.markdown("**🏪 Dans votre stock**")
+        kw_search = subcat.lower().split()[0] if subcat else name.split()[0]
+        local_parts = get_all_parts({"search": kw_search})
+
+        if not local_parts.empty:
+            found = False
+            for _, sp in local_parts.iterrows():
+                stk = int(sp["stock"])
+                stk_html = (f'<span style="color:#2e7d32">✅ {stk} en stock</span>'
+                            if stk > 0 else '<span style="color:#c00">❌ Rupture</span>')
+                st.markdown(f"""
+                <div style="display:flex;justify-content:space-between;align-items:center;
+                            padding:8px 12px;background:#f0faf0;border-radius:8px;margin-bottom:6px;
+                            border-left:3px solid {'#2e7d32' if stk>0 else '#c00'}">
+                  <div>
+                    <span style="font-weight:600;font-size:.88rem">{sp['part_name']}</span>
+                    <span style="color:#666;font-size:.78rem"> — Réf: {sp.get('part_number','?')}</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:12px">
+                    <span style="font-size:.82rem">{stk_html}</span>
+                    <span style="font-weight:700;color:#1a73e8;font-size:.9rem">{format_price(float(sp['price']))}</span>
+                  </div>
+                </div>
+                """, unsafe_allow_html=True)
+                if stk > 0:
+                    found = True
+                    if st.button(f"🛒 Ajouter au panier", key=f"sheet_cart_{sp['id']}_{ref}"):
+                        cart = st.session_state.setdefault("cart", [])
+                        exists = False
+                        for item in cart:
+                            if item["part_id"] == sp["id"]:
+                                item["quantity"] += 1
+                                item["total"] = item["quantity"] * item["unit_price"]
+                                exists = True; break
+                        if not exists:
+                            cart.append({
+                                "part_id": sp["id"], "part_name": sp["part_name"],
+                                "part_number": sp.get("part_number",""),
+                                "unit_price": float(sp["price"]),
+                                "quantity": 1, "total": float(sp["price"]),
+                                "stock": stk
+                            })
+                        st.success(f"✅ « {sp['part_name']} » ajouté au panier !")
+                        st.rerun()
+        else:
+            st.info("Cette pièce n'est pas encore dans votre stock local.")
+
+
+def show_parts_catalog_page():
+    st.header("📋 Catalogue Pièces — Fiches détaillées")
+    st.caption("Références fabricants, specs techniques, compatibilité véhicules — style fiche produit.")
+
+    catalog = load_parts_catalog()
+    if not catalog:
+        st.warning(f"⚠️ Fichier `parts_catalog.json` introuvable dans `data/`.")
+        st.info("Téléchargez le fichier `parts_catalog.json` et placez-le dans le dossier `data/`.")
+        return
+
+    # ── Filtres ──
+    with st.sidebar:
+        st.markdown("### 🔍 Filtres pièces")
+        kw_fiche = st.text_input("Référence / mot-clé", placeholder="Ex: K9K, HU7157X, embrayage...",
+                                  key="fiche_kw")
+        cats_fiche = sorted(set(p["category"] for p in catalog))
+        sel_cat_fiche = st.selectbox("Catégorie", [""]+cats_fiche, key="fiche_cat")
+        fabs_fiche = sorted(set(p["fabricant"] for p in catalog))
+        sel_fab_fiche = st.selectbox("Fabricant", [""]+fabs_fiche, key="fiche_fab")
+        vehicle_fiche = st.text_input("Filtrer par véhicule", placeholder="Ex: Clio, Duster, 206...",
+                                       key="fiche_veh")
+
+    results = search_parts_catalog(
+        keyword   = kw_fiche,
+        category  = sel_cat_fiche,
+        fabricant = sel_fab_fiche,
+        vehicle   = vehicle_fiche
+    )
+
+    st.caption(f"{len(results)} fiche(s) trouvée(s) sur {len(catalog)}")
+
+    if not results:
+        st.info("Aucune pièce trouvée. Modifiez les filtres.")
+        return
+
+    # ── Liste des résultats ──
+    if len(results) > 1:
+        st.markdown("#### Résultats de recherche")
+        for p in results:
+            vehs_count = len(p.get("compatible_vehicles",[]))
+            bg, txt, brd = FAB_COLORS.get(p["fabricant"].upper(), FAB_DEFAULT)
+            col_a, col_b, col_c = st.columns([1, 4, 1])
+            with col_a:
+                st.markdown(f"""
+                <div style="background:{bg};border:1px solid {brd};border-radius:8px;
+                            padding:8px;text-align:center;margin-top:4px">
+                  <div style="font-weight:700;color:{txt};font-size:.85rem">{p['fabricant']}</div>
+                  <div style="font-weight:700;color:{brd};font-size:.9rem">{p['ref_fabricant']}</div>
+                </div>""", unsafe_allow_html=True)
+            with col_b:
+                st.markdown(f"**{p['part_name']}**")
+                st.caption(f"{p['category']} › {p['subcategory']}  |  🚗 Compatible avec {vehs_count} véhicule(s)")
+            with col_c:
+                if st.button("📄 Voir la fiche", key=f"view_{p['part_id']}"):
+                    st.session_state["selected_part"] = p["part_id"]
+                    st.rerun()
+            st.markdown('<hr style="margin:6px 0;border:none;border-top:1px solid #eee">', unsafe_allow_html=True)
+
+        # Afficher la fiche sélectionnée
+        sel_id = st.session_state.get("selected_part")
+        if sel_id:
+            sel_part = next((p for p in results if p["part_id"] == sel_id), None)
+            if sel_part:
+                st.markdown("---")
+                st.markdown(f"### 📄 Fiche détaillée — {sel_part['part_name']}")
+                render_part_sheet(sel_part)
+    else:
+        # Un seul résultat : afficher directement la fiche
+        render_part_sheet(results[0])
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -2028,6 +2523,7 @@ st.markdown("""
 [data-testid="stSidebar"] { background-color: #1a1a2e; }
 [data-testid="stSidebar"] * { color: #e0e0e0 !important; }
 .stButton > button[kind="primary"] { background-color:#1a73e8;color:white;border-radius:8px; }
+h2 { font-weight: 700 !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -2036,7 +2532,8 @@ init_db()
 PAGES = [
     "📊 Tableau de bord",
     "🔍 Identification pièce",
-    "📦 Catalogue",
+    "📋 Catalogue fiches pièces",
+    "📦 Stock & Catalogue",
     "🗄️ Stock",
     "💳 Ventes",
     "📋 Bons de commande",
@@ -2056,12 +2553,12 @@ def render_sidebar():
         </div>""", unsafe_allow_html=True)
         st.markdown("---")
 
-        # Accès rapide identification
+        # Identification rapide
         st.markdown("### 🔍 Identification rapide")
-        vin_quick = st.text_input("VIN client (17 car.)", max_chars=17,
+        vin_quick = st.text_input("VIN client", max_chars=17,
                                    placeholder="Scan ou saisie...", key="vin_quick").strip().upper()
         if vin_quick and validate_vin(vin_quick):
-            if st.button("🚗 Identifier + rechercher", key="vin_quick_btn", type="primary"):
+            if st.button("🚗 Identifier", key="vin_quick_btn", type="primary"):
                 with st.spinner("Décodage..."):
                     specs = get_nhtsa_full_specs(vin_quick) or decode_vin(vin_quick)
                 if specs:
@@ -2101,16 +2598,17 @@ def main():
     render_sidebar()
     page = st.session_state.get("nav", "📊 Tableau de bord")
     dispatch = {
-        "📊 Tableau de bord":     show_dashboard,
-        "🔍 Identification pièce":show_identification,
-        "📦 Catalogue":           show_catalogue,
-        "🗄️ Stock":               show_stock,
-        "💳 Ventes":              show_sales,
-        "📋 Bons de commande":    show_purchase_orders,
-        "💰 Dépenses":            show_expenses,
-        "👥 Clients":             show_clients,
-        "📁 Import / Export":     show_import_export,
-        "⚙️ Paramètres":          show_settings,
+        "📊 Tableau de bord":        show_dashboard,
+        "🔍 Identification pièce":   show_identification,
+        "📋 Catalogue fiches pièces":show_parts_catalog_page,
+        "📦 Stock & Catalogue":      show_catalogue,
+        "🗄️ Stock":                  show_stock,
+        "💳 Ventes":                 show_sales,
+        "📋 Bons de commande":       show_purchase_orders,
+        "💰 Dépenses":               show_expenses,
+        "👥 Clients":                show_clients,
+        "📁 Import / Export":        show_import_export,
+        "⚙️ Paramètres":             show_settings,
     }
     fn = dispatch.get(page)
     if fn:
