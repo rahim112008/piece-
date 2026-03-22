@@ -1,0 +1,8 @@
+streamlit>=1.32.0
+pandas>=2.0.0
+Pillow>=10.0.0
+requests>=2.28.0
+openpyxl>=3.1.0
+# PDF : installez l'un ou l'autre (reportlab recommandé)
+reportlab>=4.0.0
+# fpdf2>=2.7.0   # alternative si reportlab non disponible
