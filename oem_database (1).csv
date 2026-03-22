@@ -1,0 +1,109 @@
+make,model,year_start,year_end,engine_code,displacement,fuel,category,subcategory,part_name,oem_ref,oem_ref2,dimensions,weight_g,notes,equiv_bosch,equiv_mann,equiv_febi,equiv_valeo,equiv_sachs,search_keywords
+Renault,Clio,2001,2012,K9K,1500,Diesel,Filtration,Filtre à huile,Filtre à huile moteur K9K,8200768913,7700274177,"H:86mm D:76mm d:62mm",180,Filetage M20x1.5,P3307,HU7157X,32140,,,filtre huile clio 1.5 dci
+Renault,Clio,2001,2012,K9K,1500,Diesel,Filtration,Filtre à carburant,Filtre à gasoil,7701478546,8200256005,"H:200mm L:90mm",250,Diesel uniquement,N2072,WK939,,F76100A,,filtre gasoil carburant clio dci
+Renault,Clio,2001,2012,K9K,1500,Diesel,Filtration,Filtre à air,Filtre à air boîtier,8200428152,7711134766,"L:280mm l:180mm H:50mm",120,,F026400179,C35004,,835022,,filtre air clio
+Renault,Clio,2001,2012,K9K,1500,Diesel,Freinage,Plaquettes avant,Plaquettes de frein avant,7701208040,7701207928,"L:116mm H:52.5mm Ep:17mm",520,Avec témoin usure,0986424730,,,671921,,plaquettes frein avant clio
+Renault,Clio,2001,2012,K9K,1500,Diesel,Freinage,Plaquettes arrière,Plaquettes de frein arrière,7701208040,7701207808,"L:83mm H:42mm Ep:17mm",310,,0986424731,,,671922,,plaquettes frein arrière clio
+Renault,Clio,2001,2012,K9K,1500,Diesel,Freinage,Disque avant,Disque de frein avant,7701207850,77014534,"D:259mm Ep:22mm d:66mm",3200,Ventilé,0986479387,,,23286,,disque frein avant clio
+Renault,Clio,2001,2012,K9K,1500,Diesel,Freinage,Disque arrière,Disque de frein arrière,7701207851,77014535,"D:239mm Ep:9mm d:66mm",2100,Plein,0986479388,,,23287,,disque frein arrière clio
+Renault,Clio,2001,2012,K9K,1500,Diesel,Moteur,Courroie distribution,Kit courroie distribution,7711134099,8200459175,"L:1235mm l:25mm",350,Avec galet et tendeur,1987948507,,24814,,,courroie distribution kit clio dci
+Renault,Clio,2001,2012,K9K,1500,Diesel,Suspension,Amortisseur avant G,Amortisseur avant gauche,8200492073,543022,"L:490mm D bague:12mm",1850,Pression de gaz,,,,842020,115419,amortisseur avant gauche clio
+Renault,Clio,2001,2012,K9K,1500,Diesel,Suspension,Amortisseur avant D,Amortisseur avant droit,8200492074,543023,"L:490mm D bague:12mm",1850,Pression de gaz,,,,842021,115420,amortisseur avant droit clio
+Renault,Clio,2001,2012,K9K,1500,Diesel,Électricité,Batterie,Batterie 12V 45Ah,7711238333,,"L:238mm l:130mm H:227mm",8500,Borne + gauche,S4003,,,,,batterie 45ah clio
+Renault,Clio,2001,2012,K9K,1500,Diesel,Refroidissement,Thermostat,Thermostat + joint,7701474104,8200980,,"T ouverture:89°C",145,,,,,,thermostat clio dci
+Renault,Logan,2004,2022,K9K,1500,Diesel,Filtration,Filtre à huile,Filtre à huile K9K,8200768913,7700274177,"H:86mm D:76mm d:62mm",180,Identique Clio dCi,P3307,HU7157X,32140,,,filtre huile logan dci
+Renault,Logan,2004,2022,K9K,1500,Diesel,Freinage,Plaquettes avant,Plaquettes de frein avant,7701209195,410608,"L:120mm H:58mm Ep:17.5mm",560,Sans témoin,0986494033,,,671999,,plaquettes frein avant logan
+Renault,Logan,2004,2022,K9K,1500,Diesel,Freinage,Disque avant,Disque de frein avant,7701209196,402058,"D:280mm Ep:22mm d:65mm",3400,Ventilé,0986479502,,,23500,,disque frein avant logan
+Renault,Logan,2004,2022,K9K,1500,Diesel,Moteur,Courroie distribution,Kit courroie distribution,7711134099,8200459175,"L:1235mm l:25mm",350,Compatible K9K,1987948507,,24814,,,courroie distribution logan dci
+Renault,Logan,2004,2022,D4F,1400,Essence,Filtration,Filtre à huile,Filtre à huile D4F,8200768914,7700103500,"H:82mm D:73mm d:62mm",165,,P3312,HU615X,32450,,,filtre huile logan 1.4
+Renault,Logan,2004,2022,D4F,1400,Essence,Moteur,Bougies allumage,Bougie allumage D4F,7700500168,224010,"Filetage:M14x1.25 Gap:0.8mm",50,Jeu de 4,FR7DC,,,,, bougies allumage logan 1.4
+Renault,Megane,2002,2015,K9K,1500,Diesel,Filtration,Filtre à huile,Filtre à huile Megane dCi,8200768913,7700274177,"H:86mm D:76mm d:62mm",180,Même ref K9K,P3307,HU7157X,32140,,,filtre huile megane dci
+Renault,Megane,2002,2015,K9K,1500,Diesel,Freinage,Plaquettes avant,Plaquettes de frein avant,7701207928,410600,"L:116mm H:52.5mm Ep:17mm",520,,0986424730,,,671921,,plaquettes frein avant megane
+Renault,Megane,2002,2015,K9K,1500,Diesel,Électricité,Bobine allumage,Module d'allumage DCI,7700107870,224331,"H:75mm D:55mm",280,Bobine crayon,,,,,,bobine allumage megane dci
+Renault,Megane,2002,2015,F9Q,1900,Diesel,Filtration,Filtre à huile,Filtre à huile F9Q,7700274177,8200768913,"H:86mm D:76mm d:62mm",180,,P3307,HU7157X,32140,,,filtre huile megane 1.9 dci
+Peugeot,206,1998,2012,DW10,2000,Diesel,Filtration,Filtre à huile,Filtre à huile DW10 HDi,1109AJ,1109AH,"H:77mm D:76mm d:66mm",175,,P9448,W719/30,,,,filtre huile 206 hdi 2.0
+Peugeot,206,1998,2012,DW10,2000,Diesel,Filtration,Filtre à gasoil,Filtre gasoil HDi,190773,1901F6,"H:130mm D:90mm",210,,N1514,WK829/2,,F76079A,,filtre gasoil 206 hdi
+Peugeot,206,1998,2012,DW10,2000,Diesel,Freinage,Plaquettes avant,Plaquettes de frein avant,425428,4252E3,"L:110mm H:68mm Ep:18mm",530,,0986494098,,,671874,,plaquettes frein avant 206 hdi
+Peugeot,206,1998,2012,DW10,2000,Diesel,Freinage,Disque avant,Disque de frein avant,4246J0,4249L0,"D:266mm Ep:22mm d:66mm",3100,Ventilé,0986479041,,,23050,,disque frein avant 206
+Peugeot,206,1998,2012,DW10,2000,Diesel,Moteur,Courroie distribution,Kit distribution DW10,0816H5,1609586880,"L:1456mm",380,Avec pompe à eau,1987948132,,25706,,,courroie distribution 206 hdi
+Peugeot,206,1998,2012,TU3,1400,Essence,Moteur,Bougies allumage,Bougie allumage TU3,5960L5,5960F8,"M14x1.25 Gap:0.9mm",50,Jeu de 4,HR7DCX+,,,,, bougies 206 1.4 essence
+Peugeot,206,1998,2012,DW10,2000,Diesel,Suspension,Amortisseur avant G,Amortisseur avant gauche,5202E9,5062H1,"L:510mm D:12mm",1950,,,,,,115455,amortisseur avant gauche 206
+Peugeot,207,2006,2015,EP6,1600,Essence,Filtration,Filtre à huile,Filtre à huile EP6 THP,1109CJ,1109AJ,"H:98mm D:76mm d:66mm",190,,P9462,HU821X,,,,filtre huile 207 1.6 thp
+Peugeot,207,2006,2015,DV6,1600,Diesel,Filtration,Filtre à huile,Filtre à huile DV6 HDi,1109AJ,,"H:77mm D:76mm d:66mm",175,,P9448,W719/30,,,,filtre huile 207 hdi 1.6
+Peugeot,207,2006,2015,DV6,1600,Diesel,Freinage,Plaquettes avant,Plaquettes de frein avant,425597,4252R2,"L:110mm H:68mm Ep:16.5mm",490,,0986494203,,,671900,,plaquettes frein avant 207
+Peugeot,308,2007,2021,EP6,1600,Essence,Filtration,Filtre à huile,Filtre à huile EP6,1109CJ,1109AJ,"H:98mm D:76mm d:66mm",190,,P9462,HU821X,,,,filtre huile 308 1.6
+Peugeot,308,2007,2021,DV6,1600,Diesel,Filtration,Filtre à gasoil,Filtre gasoil DV6 HDi,1906A5,190785,"H:120mm D:88mm",200,,N2072,WK939,,F76100A,,filtre gasoil 308 hdi
+Peugeot,308,2007,2021,DV6,1600,Diesel,Transmission,Kit embrayage,Kit embrayage complet DV6,2052F8,2052L0,"D:228mm",2800,Disque + mécanisme + butée,,,,,3000951032,embrayage 308 hdi
+Citroën,C3,2002,2020,DV4,1400,Diesel,Filtration,Filtre à huile,Filtre à huile DV4 HDi,1109AJ,1109AH,"H:77mm D:76mm d:66mm",175,,P9448,W719/30,,,,filtre huile c3 1.4 hdi
+Citroën,C3,2002,2020,DV4,1400,Diesel,Freinage,Plaquettes avant,Plaquettes de frein avant,425360,4252B3,"L:108mm H:65mm Ep:16mm",480,,0986494060,,,671851,,plaquettes frein avant c3
+Citroën,C3,2002,2020,DV4,1400,Diesel,Freinage,Disque avant,Disque de frein avant,4246C4,4247E0,"D:266mm Ep:20mm d:67mm",2900,Ventilé,0986479042,,,23070,,disque frein avant c3
+Citroën,C3,2002,2020,DV4,1400,Diesel,Suspension,Amortisseur avant G,Amortisseur avant gauche,5202B0,5066L2,"L:500mm D:14mm",1800,,,,,842100,115395,amortisseur avant gauche c3
+Citroën,Berlingo,2002,2021,DV6,1600,Diesel,Filtration,Filtre à huile,Filtre à huile DV6,1109AJ,1109AH,"H:77mm D:76mm d:66mm",175,,P9448,W719/30,,,,filtre huile berlingo hdi 1.6
+Citroën,Berlingo,2002,2021,DV6,1600,Diesel,Freinage,Plaquettes avant,Plaquettes de frein avant,425597,4252E3,"L:110mm H:68mm Ep:18mm",530,,0986494098,,,671874,,plaquettes frein avant berlingo
+Citroën,Berlingo,2002,2021,DV6,1600,Diesel,Électricité,Batterie,Batterie 12V 60Ah,5600SX,,"L:242mm l:175mm H:190mm",12000,Borne + gauche,S4005,,,,,batterie 60ah berlingo
+Hyundai,Accent,2005,2020,G4EC,1500,Essence,Filtration,Filtre à huile,Filtre à huile G4EC,2630035504,26300-35504,"H:90mm D:78mm d:65mm",185,,P3272,HU726/2X,,,,filtre huile accent 1.5
+Hyundai,Accent,2005,2020,G4EC,1500,Essence,Freinage,Plaquettes avant,Plaquettes de frein avant,581012BA40,58101-2BA40,"L:123mm H:55mm Ep:15mm",490,,0986494412,,,671700,,plaquettes frein avant accent
+Hyundai,Accent,2005,2020,G4EC,1500,Essence,Freinage,Disque avant,Disque de frein avant,517121E100,51712-1E100,"D:258mm Ep:22mm d:65mm",2900,Ventilé,0986479551,,,23600,,disque frein avant accent
+Hyundai,Accent,2005,2020,G4EC,1500,Essence,Moteur,Bougies allumage,Bougie allumage G4EC,1880311090,18803-11090,"M14x1.25 Gap:1.0mm",55,Jeu de 4,HR7MCV,,,,, bougies accent 1.5
+Hyundai,Accent,2005,2020,G4EC,1500,Essence,Moteur,Courroie distribution,Courroie distribution G4EC,2431222010,24312-22010,"L:HS",280,Vérifier selon année,1987948209,,,,,courroie distribution accent
+Hyundai,Elantra,2011,2022,G4FG,1600,Essence,Filtration,Filtre à huile,Filtre à huile G4FG,2630035504,26300-35504,"H:90mm D:78mm d:65mm",185,,P3272,HU726/2X,,,,filtre huile elantra 1.6
+Hyundai,Elantra,2011,2022,G4FG,1600,Essence,Freinage,Plaquettes avant,Plaquettes de frein avant,581012VA51,58101-2VA51,"L:130mm H:56mm Ep:15mm",510,,0986494472,,,671701,,plaquettes frein avant elantra
+Hyundai,Elantra,2011,2022,G4FG,1600,Essence,Suspension,Amortisseur avant G,Amortisseur avant gauche,546512H501,54651-2H501,"L:520mm D:12mm",1900,Pression de gaz,,,,842500,115600,amortisseur avant gauche elantra
+Hyundai,Tucson,2004,2022,D4EA,2000,Diesel,Filtration,Filtre à huile,Filtre à huile D4EA,2630027000,26300-27000,"H:88mm D:80mm d:65mm",190,,P9176,HU8003X,,,,filtre huile tucson 2.0 crdi
+Hyundai,Tucson,2004,2022,D4EA,2000,Diesel,Filtration,Filtre à gasoil,Filtre gasoil D4EA,319222E900,31922-2E900,"H:145mm D:92mm",235,,N2058,WK832/2,,,,filtre gasoil tucson crdi
+Hyundai,Tucson,2004,2022,D4EA,2000,Diesel,Freinage,Plaquettes avant,Plaquettes de frein avant,581012EA70,58101-2EA70,"L:135mm H:60mm Ep:16mm",560,,0986494411,,,671750,,plaquettes frein avant tucson
+Kia,Rio,2005,2022,G4HE,1400,Essence,Filtration,Filtre à huile,Filtre à huile G4HE,2630035054,26300-35054,"H:85mm D:76mm d:65mm",175,,P3272,HU726/2X,,,,filtre huile rio 1.4
+Kia,Rio,2005,2022,G4HE,1400,Essence,Freinage,Plaquettes avant,Plaquettes de frein avant,581012M100,58101-2M100,"L:115mm H:52mm Ep:14mm",460,,0986494060,,,671700,,plaquettes frein avant rio
+Kia,Rio,2005,2022,G4HE,1400,Essence,Freinage,Disque avant,Disque de frein avant,517121H100,51712-1H100,"D:256mm Ep:22mm d:65mm",2800,Ventilé,0986479551,,,23600,,disque frein avant rio
+Kia,Rio,2005,2022,G4HE,1400,Essence,Moteur,Courroie accessoires,Courroie accessoires poly-V,2521226010,25212-26010,"L:1000mm Ri:6",180,,F01G700051,,,,,courroie accessoires rio
+Kia,Sportage,2004,2022,D4BB,2000,Diesel,Filtration,Filtre à huile,Filtre à huile D4BB,2630027000,26300-27000,"H:88mm D:80mm d:65mm",190,,P9176,HU8003X,,,,filtre huile sportage 2.0 crdi
+Kia,Sportage,2004,2022,D4BB,2000,Diesel,Freinage,Plaquettes avant,Plaquettes de frein avant,581012E600,58101-2E600,"L:135mm H:60mm Ep:16mm",560,,0986494411,,,671750,,plaquettes frein avant sportage
+Kia,Sportage,2004,2022,D4BB,2000,Diesel,Suspension,Amortisseur avant D,Amortisseur avant droit,546612E001,54661-2E001,"L:525mm D:12mm",1950,,,,,842600,115700,amortisseur avant droit sportage
+Kia,Cerato,2004,2018,G4GC,1600,Essence,Filtration,Filtre à huile,Filtre à huile G4GC,2630023000,26300-23000,"H:88mm D:78mm d:65mm",180,,P3312,HU615X,,,,filtre huile cerato 1.6
+Kia,Cerato,2004,2018,G4GC,1600,Essence,Moteur,Courroie distribution,Kit courroie distribution G4GC,2431126201,24311-26201,"L:HS",320,,1987948325,,,,,courroie distribution cerato
+Toyota,Corolla,2002,2022,1NDTV,1400,Diesel,Filtration,Filtre à huile,Filtre à huile 1NDTV,9091503001,90915-03001,"H:80mm D:75mm d:64mm",170,,P3337,HU68/1X,,,,filtre huile corolla 1.4 d4d
+Toyota,Corolla,2002,2022,1NDTV,1400,Diesel,Filtration,Filtre à gasoil,Filtre gasoil 1NDTV,2339030040,23390-30040,"H:115mm D:90mm",195,,N6005,WK614/38,,,,filtre gasoil corolla d4d
+Toyota,Corolla,2002,2022,1NDTV,1400,Diesel,Freinage,Plaquettes avant,Plaquettes de frein avant,0446502370,04465-02370,"L:120mm H:53mm Ep:14.5mm",450,,0986424411,,,671500,,plaquettes frein avant corolla
+Toyota,Corolla,2002,2022,1NDTV,1400,Diesel,Freinage,Disque avant,Disque de frein avant,4351212320,43512-12320,"D:255mm Ep:22mm d:65mm",2850,Ventilé,0986479077,,,23700,,disque frein avant corolla
+Toyota,Corolla,2002,2022,1NDTV,1400,Diesel,Moteur,Courroie distribution,Courroie distribution 1NDTV,1356826020,13568-26020,"L:HS",260,Avec galet,1987948275,,,,,courroie distribution corolla d4d
+Toyota,Yaris,2006,2022,1KR,1000,Essence,Filtration,Filtre à huile,Filtre à huile 1KR,1560840060,15608-40060,"H:85mm D:71mm d:64mm",160,,P3337,HU68/1X,,,,filtre huile yaris 1.0
+Toyota,Yaris,2006,2022,1KR,1000,Essence,Freinage,Plaquettes avant,Plaquettes de frein avant,0446552290,04465-52290,"L:110mm H:51mm Ep:14mm",420,,0986494537,,,671510,,plaquettes frein avant yaris
+Toyota,Yaris,2006,2022,1KR,1000,Essence,Moteur,Bougies allumage,Bougie allumage 1KR,9091901247,90919-01247,"M14x1.25 Gap:1.1mm",50,Jeu de 3,FR7HC,,,,, bougies yaris 1.0
+Toyota,Hilux,2005,2022,1KDFTV,3000,Diesel,Filtration,Filtre à huile,Filtre à huile 1KDFTV,9091520003,90915-20003,"H:90mm D:88mm d:70mm",210,,P3418,HU932/6X,,,,filtre huile hilux 3.0 d4d
+Toyota,Hilux,2005,2022,1KDFTV,3000,Diesel,Filtration,Filtre à gasoil,Filtre gasoil 1KDFTV,2339030420,23390-30420,"H:140mm D:100mm",265,,N6011,WK940/33,,,,filtre gasoil hilux d4d
+Toyota,Hilux,2005,2022,1KDFTV,3000,Diesel,Freinage,Plaquettes avant,Plaquettes de frein avant,0446571080,04465-71080,"L:132mm H:62mm Ep:15mm",620,,0986494527,,,671550,,plaquettes frein avant hilux
+Toyota,Hilux,2005,2022,1KDFTV,3000,Diesel,Suspension,Amortisseur avant D,Amortisseur avant droit,4851039625,48510-39625,"L:590mm D:14mm",2400,4x4,,,,342365,amortisseur avant droit hilux
+Chevrolet,Aveo,2005,2018,Z14XER,1400,Essence,Filtration,Filtre à huile,Filtre à huile Z14XER,93175493,25010338,"H:86mm D:76mm d:62mm",180,,P3337,HU612/X,,,,filtre huile aveo 1.4
+Chevrolet,Aveo,2005,2018,Z14XER,1400,Essence,Freinage,Plaquettes avant,Plaquettes de frein avant,93177289,96412264,"L:115mm H:50mm Ep:15mm",440,,0986494412,,,671710,,plaquettes frein avant aveo
+Chevrolet,Aveo,2005,2018,Z14XER,1400,Essence,Freinage,Disque avant,Disque de frein avant,96534782,96580724,"D:256mm Ep:22mm d:65mm",2850,Ventilé,0986479551,,,23620,,disque frein avant aveo
+Chevrolet,Aveo,2005,2018,Z14XER,1400,Essence,Moteur,Bougies allumage,Bougie allumage Z14XER,55558560,12655421,"M14x1.25 Gap:1.0mm",52,Jeu de 4,HR8DCX,,,,, bougies aveo 1.4
+Chevrolet,Aveo,2005,2018,Z14XER,1400,Essence,Moteur,Courroie distribution,Courroie distribution Z14XER,93745524,,"L:HS",260,Vérif.: chaîne depuis 2011,1987948295,,,,,courroie distribution aveo
+Chevrolet,Cruze,2009,2019,Z20DTH,2000,Diesel,Filtration,Filtre à huile,Filtre à huile Z20DTH,55594651,6421335,"H:78mm D:80mm d:66mm",185,,P9434,HU8005Z,,,,filtre huile cruze 2.0 vcdi
+Chevrolet,Cruze,2009,2019,Z20DTH,2000,Diesel,Freinage,Plaquettes avant,Plaquettes de frein avant,13502150,93175194,"L:129mm H:60mm Ep:16mm",540,,0986494437,,,671720,,plaquettes frein avant cruze
+Dacia,Logan,2004,2022,K9K,1500,Diesel,Filtration,Filtre à huile,Filtre à huile K9K (Logan),8200768913,7700274177,"H:86mm D:76mm d:62mm",180,Identique Renault,P3307,HU7157X,32140,,,filtre huile logan dacia dci
+Dacia,Logan,2004,2022,K9K,1500,Diesel,Freinage,Plaquettes avant,Plaquettes de frein avant,7701209195,410600,"L:120mm H:58mm Ep:17.5mm",560,,0986494033,,,671999,,plaquettes frein avant dacia logan
+Dacia,Sandero,2008,2022,K9K,1500,Diesel,Filtration,Filtre à huile,Filtre à huile Sandero dCi,8200768913,7700274177,"H:86mm D:76mm d:62mm",180,Identique K9K,P3307,HU7157X,32140,,,filtre huile sandero dci
+Dacia,Sandero,2008,2022,K9K,1500,Diesel,Freinage,Plaquettes avant,Plaquettes de frein avant,440606095R,7701209195,"L:120mm H:58mm Ep:17.5mm",560,,0986494033,,,671999,,plaquettes frein avant sandero
+Dacia,Duster,2010,2022,K9K,1500,Diesel,Filtration,Filtre à huile,Filtre à huile Duster dCi,8200768913,7700274177,"H:86mm D:76mm d:62mm",180,,P3307,HU7157X,32140,,,filtre huile duster dci
+Dacia,Duster,2010,2022,K9K,1500,Diesel,Freinage,Plaquettes avant,Plaquettes de frein avant,440600027R,7701209196,"L:122mm H:60mm Ep:17mm",580,,0986494501,,,672000,,plaquettes frein avant duster
+Dacia,Duster,2010,2022,K9K,1500,Diesel,Suspension,Amortisseur avant G,Amortisseur avant gauche,8200787456,543303,"L:520mm D:12mm",1900,2WD,,,,842200,115500,amortisseur avant gauche duster
+Volkswagen,Golf,2004,2020,BKD,1900,Diesel,Filtration,Filtre à huile,Filtre à huile BKD TDI,038115561B,03L115562,"H:110mm D:76mm",195,,P9320,HU719/7X,,,,filtre huile golf 1.9 tdi
+Volkswagen,Golf,2004,2020,BKD,1900,Diesel,Filtration,Filtre à gasoil,Filtre gasoil TDI,1K0127434A,6Q0127400B,"H:90mm D:86mm",185,,N2040,WK69,,F26169A,,filtre gasoil golf tdi
+Volkswagen,Golf,2004,2020,BKD,1900,Diesel,Freinage,Plaquettes avant,Plaquettes de frein avant,1K0698151B,7D0698151,"L:130mm H:58mm Ep:18mm",580,,0986494020,,,671845,,plaquettes frein avant golf tdi
+Volkswagen,Golf,2004,2020,BKD,1900,Diesel,Freinage,Disque avant,Disque de frein avant,1K0615301AA,1K0615301,"D:288mm Ep:25mm d:65mm",4100,Ventilé,0986479277,,,23050,,disque frein avant golf
+Volkswagen,Golf,2004,2020,BKD,1900,Diesel,Moteur,Courroie distribution,Kit distribution TDI,038198119B,03G198479,"L:HS",450,Avec pompe à eau,1987946509,,,,,courroie distribution golf tdi
+Volkswagen,Passat,2005,2019,BKP,2000,Diesel,Filtration,Filtre à huile,Filtre à huile BKP TDI,03G115562,03G115562A,"H:110mm D:76mm",195,,P9320,HU719/7X,,,,filtre huile passat 2.0 tdi
+Volkswagen,Passat,2005,2019,BKP,2000,Diesel,Freinage,Plaquettes avant,Plaquettes de frein avant,3C0698151B,3C0698151,"L:135mm H:60mm Ep:18mm",610,,0986494428,,,671846,,plaquettes frein avant passat
+Fiat,Punto,2000,2012,188A9,1200,Essence,Filtration,Filtre à huile,Filtre à huile 188A9,46796687,73501682,"H:78mm D:73mm d:64mm",162,,P3312,HU615X,,,,filtre huile punto 1.2
+Fiat,Punto,2000,2012,188A9,1200,Essence,Freinage,Plaquettes avant,Plaquettes de frein avant,77363627,46776265,"L:112mm H:50mm Ep:15mm",430,,0986494060,,,671841,,plaquettes frein avant punto 1.2
+Fiat,Tipo,2015,2022,55261961,1400,Essence,Filtration,Filtre à huile,Filtre à huile Tipo 1.4,55261961,46544820,"H:82mm D:73mm d:64mm",168,,P3312,HU615X,,,,filtre huile tipo 1.4
+Universel,Tous,1990,2030,,,,Électricité,Batterie,Batterie 12V 45Ah,UN45AH,,"L:238mm l:130mm H:227mm",8500,Borne + gauche,S4003,,,,,batterie 45ah universelle
+Universel,Tous,1990,2030,,,,Électricité,Batterie,Batterie 12V 60Ah,UN60AH,,"L:242mm l:175mm H:190mm",12000,Borne + gauche,S4005,,,,,batterie 60ah universelle
+Universel,Tous,1990,2030,,,,Électricité,Batterie,Batterie 12V 70Ah,UN70AH,,"L:278mm l:175mm H:190mm",14500,Borne + gauche,S4008,,,,,batterie 70ah universelle
+Universel,Tous,1990,2030,,,,Refroidissement,Liquide de refroidissement,Antigel G11 Vert 1L,UNANTIG11,,"L:HS",1050,Vert dilué à 50%,,,,,, antigel liquide refroidissement vert
+Universel,Tous,1990,2030,,,,Refroidissement,Liquide de refroidissement,Antigel G13 Rose 1L,UNANTIG13,,"L:HS",1050,Rose OAT longue durée,,,,,, antigel g13 rose longue durée
+Universel,Tous,1990,2030,,,,Moteur,Huile moteur,Huile moteur 5W30 5L synthèse,UNHUILE5W30,,"H:HS",4500,Toutes marques modernes,,,,,, huile moteur 5w30 synthèse
+Universel,Tous,1990,2030,,,,Moteur,Huile moteur,Huile moteur 10W40 5L semi-syn,UNHUILE10W40,,"H:HS",4500,Moteurs anciens,,,,,, huile moteur 10w40 semi synthèse
+Universel,Tous,1990,2030,,,,Freinage,Liquide de frein,Liquide de frein DOT4 500ml,UNLFDOT4,,"H:HS",550,Température ébullition 230°C,,,,,, liquide frein dot4
+Universel,Tous,1990,2030,,,,Éclairage,Ampoule H4,Ampoule H4 60/55W,UNH460W,,"H:H4",45,Standard halogène,1987302044,,,,,ampoule H4 phare
+Universel,Tous,1990,2030,,,,Éclairage,Ampoule H7,Ampoule H7 55W,UNH755W,,"H:H7",40,Standard halogène,1987302152,,,,,ampoule H7 feu croisement
