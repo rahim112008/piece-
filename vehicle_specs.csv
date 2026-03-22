@@ -1,0 +1,95 @@
+make,model,year_start,year_end,version,engine_code,displacement_cc,cylinders,fuel,power_hp,torque_nm,transmission,drive,body,doors,seats,weight_kg,notes
+Dacia,Duster,2010,2017,1.6 16V 105ch,H4M,1598,4,Essence,105,148,Manuelle 6,4x2,SUV,5,5,1235,2WD version de base
+Dacia,Duster,2010,2017,1.6 16V 4x4,H4M,1598,4,Essence,105,148,Manuelle 6,4x4,SUV,5,5,1388,4WD avec transfert
+Dacia,Duster,2010,2017,1.5 dCi 85ch,K9K,1461,4,Diesel,85,200,Manuelle 5,4x2,SUV,5,5,1280,
+Dacia,Duster,2010,2017,1.5 dCi 110ch,K9K,1461,4,Diesel,110,240,Manuelle 6,4x4,SUV,5,5,1400,
+Dacia,Duster,2018,2022,1.0 TCe 100ch,H4D,999,3,Essence,100,160,Manuelle 6,4x2,SUV,5,5,1228,
+Dacia,Duster,2018,2022,1.3 TCe 130ch,H5Ht,1330,4,Essence,130,240,Manuelle 6,4x4,SUV,5,5,1385,
+Dacia,Duster,2018,2022,1.5 dCi 90ch,K9K,1461,4,Diesel,90,220,Manuelle 6,4x2,SUV,5,5,1330,
+Dacia,Logan,2004,2012,1.4 MPI,K7J,1390,4,Essence,75,112,Manuelle 5,4x2,Berline,4,5,1045,
+Dacia,Logan,2004,2012,1.6 MPI,K7M,1598,4,Essence,87,128,Manuelle 5,4x2,Berline,4,5,1065,
+Dacia,Logan,2004,2012,1.5 dCi 65ch,K9K,1461,4,Diesel,65,160,Manuelle 5,4x2,Berline,4,5,1110,
+Dacia,Logan,2013,2022,0.9 TCe 90ch,H4Bt,898,3,Essence,90,135,Manuelle 5,4x2,Berline,4,5,1070,
+Dacia,Logan,2013,2022,1.0 SCe 75ch,H4D,999,3,Essence,75,95,Manuelle 5,4x2,Berline,4,5,1055,
+Dacia,Logan,2013,2022,1.5 dCi 75ch,K9K,1461,4,Diesel,75,200,Manuelle 5,4x2,Berline,4,5,1120,
+Dacia,Sandero,2008,2012,1.4 MPI,K7J,1390,4,Essence,75,112,Manuelle 5,4x2,Citadine,5,5,1025,
+Dacia,Sandero,2008,2012,1.6 MPI,K7M,1598,4,Essence,87,128,Manuelle 5,4x2,Citadine,5,5,1055,
+Dacia,Sandero,2008,2012,1.5 dCi 70ch,K9K,1461,4,Diesel,70,160,Manuelle 5,4x2,Citadine,5,5,1085,
+Dacia,Sandero,2013,2022,0.9 TCe 90ch,H4Bt,898,3,Essence,90,135,Manuelle 5,4x2,Citadine,5,5,1025,
+Dacia,Sandero,2013,2022,1.5 dCi 75ch,K9K,1461,4,Diesel,75,190,Manuelle 5,4x2,Citadine,5,5,1065,
+Renault,Clio,2001,2005,1.5 dCi 65ch,K9K,1461,4,Diesel,65,160,Manuelle 5,4x2,Citadine,3,5,1060,II phase 1
+Renault,Clio,2006,2012,1.5 dCi 85ch,K9K,1461,4,Diesel,85,200,Manuelle 6,4x2,Citadine,5,5,1125,III
+Renault,Clio,2006,2012,1.5 dCi 105ch,K9K,1461,4,Diesel,105,240,Manuelle 6,4x2,Citadine,5,5,1145,III
+Renault,Clio,2006,2012,1.6 16V,K4M,1598,4,Essence,112,153,Manuelle 5,4x2,Citadine,5,5,1120,III
+Renault,Logan,2004,2012,1.4 16V,K7J,1390,4,Essence,75,112,Manuelle 5,4x2,Berline,4,5,1050,I
+Renault,Logan,2004,2012,1.5 dCi 85ch,K9K,1461,4,Diesel,85,200,Manuelle 6,4x2,Berline,4,5,1130,I
+Renault,Logan,2013,2022,0.9 TCe,H4Bt,898,3,Essence,90,135,Manuelle 5,4x2,Berline,4,5,1080,II
+Renault,Logan,2013,2022,1.5 dCi 90ch,K9K,1461,4,Diesel,90,220,Manuelle 6,4x2,Berline,4,5,1150,II
+Renault,Megane,2002,2008,1.5 dCi 85ch,K9K,1461,4,Diesel,85,200,Manuelle 6,4x2,Compacte,5,5,1300,II
+Renault,Megane,2002,2008,1.9 dCi 120ch,F9Q,1870,4,Diesel,120,280,Manuelle 6,4x2,Compacte,5,5,1375,II
+Renault,Megane,2008,2015,1.5 dCi 85ch,K9K,1461,4,Diesel,85,200,Manuelle 6,4x2,Compacte,5,5,1355,III
+Renault,Megane,2008,2015,1.5 dCi 110ch,K9K,1461,4,Diesel,110,240,Manuelle 6,4x2,Compacte,5,5,1385,III
+Renault,Kangoo,2008,2021,1.5 dCi 90ch,K9K,1461,4,Diesel,90,220,Manuelle 6,4x2,Monospace,5,5,1460,II
+Renault,Kangoo,2008,2021,1.6 16V,K4M,1598,4,Essence,105,148,Manuelle 5,4x2,Monospace,5,5,1405,II
+Peugeot,206,1998,2010,1.4 HDi,DV4,1398,4,Diesel,70,160,Manuelle 5,4x2,Citadine,5,5,1050,Phase 1&2
+Peugeot,206,1998,2010,2.0 HDi,DW10,1997,4,Diesel,90,205,Manuelle 5,4x2,Citadine,5,5,1175,110ch version aussi
+Peugeot,206,1998,2010,1.4,TU3JP,1360,4,Essence,75,118,Manuelle 5,4x2,Citadine,5,5,1000,
+Peugeot,207,2006,2015,1.6 HDi 90ch,DV6,1560,4,Diesel,90,215,Manuelle 5,4x2,Citadine,5,5,1155,
+Peugeot,207,2006,2015,1.6 HDi 110ch,DV6,1560,4,Diesel,110,240,Manuelle 6,4x2,Citadine,5,5,1175,
+Peugeot,207,2006,2015,1.6 VTi 120ch,EP6,1598,4,Essence,120,160,Manuelle 5,4x2,Citadine,5,5,1145,
+Peugeot,308,2007,2013,1.6 HDi 90ch,DV6,1560,4,Diesel,90,215,Manuelle 5,4x2,Compacte,5,5,1305,I
+Peugeot,308,2007,2013,1.6 HDi 112ch,DV6,1560,4,Diesel,112,270,Manuelle 6,4x2,Compacte,5,5,1325,I
+Peugeot,308,2007,2013,1.6 THP 125ch,EP6,1598,4,Essence,125,240,Manuelle 6,4x2,Compacte,5,5,1280,I
+Peugeot,308,2013,2021,1.6 BlueHDi 120ch,DV6FC,1560,4,Diesel,120,300,Manuelle 6,4x2,Compacte,5,5,1280,II
+Citroën,C3,2002,2009,1.4 HDi,DV4,1398,4,Diesel,70,160,Manuelle 5,4x2,Citadine,5,5,1040,I
+Citroën,C3,2009,2016,1.6 HDi 90ch,DV6,1560,4,Diesel,90,215,Manuelle 5,4x2,Citadine,5,5,1155,II
+Citroën,C3,2016,2022,1.2 PureTech 83ch,HMZ,1199,3,Essence,83,118,Manuelle 5,4x2,Citadine,5,5,1040,III
+Citroën,Berlingo,2002,2008,1.6 HDi 90ch,DV6,1560,4,Diesel,90,215,Manuelle 5,4x2,Utilitaire,5,5,1390,I
+Citroën,Berlingo,2008,2018,1.6 HDi 90ch,DV6,1560,4,Diesel,90,215,Manuelle 5,4x2,Utilitaire,5,5,1428,II
+Citroën,Berlingo,2008,2018,1.6 e-HDi 90ch,DV6,1560,4,Diesel,90,215,Manuelle 5,4x2,Utilitaire,5,5,1450,avec micro-hybride
+Hyundai,Accent,2006,2011,1.5 CRDi,D3EA,1493,4,Diesel,110,235,Manuelle 6,4x2,Berline,4,5,1190,MC
+Hyundai,Accent,2006,2011,1.6 MPI,G4ED,1591,4,Essence,112,148,Manuelle 5,4x2,Berline,4,5,1130,MC
+Hyundai,Accent,2011,2017,1.4 MPI,G4FA,1396,4,Essence,100,132,Manuelle 6,4x2,Berline,4,5,1060,RB
+Hyundai,Accent,2011,2017,1.6 MPI,G4FC,1591,4,Essence,123,155,Manuelle 6,4x2,Berline,4,5,1120,RB
+Hyundai,Elantra,2011,2015,1.6 GDi,G4FD,1591,4,Essence,132,165,Manuelle 6,4x2,Berline,4,5,1295,MD
+Hyundai,Elantra,2011,2015,1.6 CRDi,D4FB,1582,4,Diesel,128,260,Manuelle 6,4x2,Berline,4,5,1370,MD
+Hyundai,Elantra,2016,2022,1.6 MPI,G4FG,1591,4,Essence,128,157,Manuelle 6,4x2,Berline,4,5,1325,AD
+Hyundai,Tucson,2004,2010,2.0 CRDi,D4EA,1991,4,Diesel,140,305,Manuelle 6,4x4,SUV,5,5,1600,I JM
+Hyundai,Tucson,2010,2015,1.7 CRDi,D4FD,1685,4,Diesel,115,260,Manuelle 6,4x2,SUV,5,5,1540,II LM
+Hyundai,Tucson,2015,2022,1.6 GDi,G4FD,1591,4,Essence,132,162,Manuelle 6,4x2,SUV,5,5,1545,III TL
+Kia,Rio,2005,2011,1.4 MPI,G4EE,1396,4,Essence,97,131,Manuelle 5,4x2,Citadine,5,5,1085,JB
+Kia,Rio,2011,2017,1.4 MPI,G4FA,1396,4,Essence,107,136,Manuelle 5,4x2,Citadine,5,5,1130,UB
+Kia,Rio,2011,2017,1.1 CRDi,D3FA,1120,3,Diesel,75,170,Manuelle 5,4x2,Citadine,5,5,1115,UB
+Kia,Rio,2017,2022,1.4 MPI,G4LC,1368,4,Essence,100,133,Manuelle 6,4x2,Citadine,5,5,1095,YB
+Kia,Sportage,2004,2010,2.0 CRDi,D4EA,1991,4,Diesel,140,305,Manuelle 6,4x4,SUV,5,5,1640,I KM
+Kia,Sportage,2010,2015,1.7 CRDi,D4FD,1685,4,Diesel,115,260,Manuelle 6,4x2,SUV,5,5,1540,II SL
+Kia,Sportage,2015,2022,1.6 GDi,G4FD,1591,4,Essence,132,162,Manuelle 6,4x2,SUV,5,5,1545,III QL
+Kia,Cerato,2004,2009,1.6 MPI,G4FC,1591,4,Essence,105,148,Manuelle 5,4x2,Berline,4,5,1255,I LD
+Kia,Cerato,2009,2013,1.6 MPI,G4FC,1591,4,Essence,122,154,Manuelle 6,4x2,Berline,4,5,1290,II TD
+Toyota,Corolla,2002,2007,1.4 D-4D,1ND-TV,1364,4,Diesel,90,190,Manuelle 5,4x2,Berline,4,5,1175,E120
+Toyota,Corolla,2002,2007,1.6 VVT-i,3ZZ-FE,1598,4,Essence,110,155,Manuelle 5,4x2,Berline,4,5,1130,E120
+Toyota,Corolla,2007,2013,1.4 D-4D,1ND-TV,1364,4,Diesel,90,190,Manuelle 6,4x2,Berline,4,5,1240,E150
+Toyota,Corolla,2007,2013,1.6 VVT-i,1ZR-FE,1598,4,Essence,124,157,Manuelle 6,4x2,Berline,4,5,1205,E150
+Toyota,Yaris,2006,2011,1.0 VVT-i,1KR-FE,998,3,Essence,69,93,Manuelle 5,4x2,Citadine,5,5,940,XP90
+Toyota,Yaris,2006,2011,1.4 D-4D,1ND-TV,1364,4,Diesel,90,190,Manuelle 5,4x2,Citadine,5,5,1055,XP90
+Toyota,Yaris,2011,2020,1.0 VVT-i,1KR-FE,998,3,Essence,69,93,Manuelle 5,4x2,Citadine,5,5,955,XP130
+Toyota,Hilux,2005,2015,2.5 D-4D,2KD-FTV,2494,4,Diesel,120,300,Manuelle 5,4x4,Pickup,4,5,1820,AN10
+Toyota,Hilux,2005,2015,3.0 D-4D,1KD-FTV,2982,4,Diesel,171,420,Manuelle 5,4x4,Pickup,4,5,1890,AN10
+Toyota,Hilux,2015,2022,2.4 D-4D,2GD-FTV,2393,4,Diesel,150,400,Manuelle 6,4x4,Pickup,4,5,1920,AN120
+Chevrolet,Aveo,2006,2011,1.2 DOHC,Z12XER,1229,4,Essence,84,110,Manuelle 5,4x2,Citadine,5,5,1025,T250
+Chevrolet,Aveo,2006,2011,1.4 DOHC,Z14XER,1364,4,Essence,94,125,Manuelle 5,4x2,Citadine,5,5,1055,T250
+Chevrolet,Aveo,2011,2018,1.2,A12XER,1229,4,Essence,86,115,Manuelle 5,4x2,Citadine,5,5,1060,T300
+Chevrolet,Aveo,2011,2018,1.4,A14NET,1364,4,Essence,100,130,Manuelle 5,4x2,Citadine,5,5,1090,T300
+Chevrolet,Cruze,2009,2016,1.6,F16D3,1598,4,Essence,113,155,Manuelle 6,4x2,Berline,4,5,1380,J300
+Chevrolet,Cruze,2009,2016,2.0 VCDi,Z20DTH,1998,4,Diesel,150,320,Manuelle 6,4x2,Berline,4,5,1500,J300
+Volkswagen,Golf,2003,2009,1.9 TDI,BXE,1896,4,Diesel,105,250,Manuelle 5,4x2,Compacte,5,5,1330,V Mk5
+Volkswagen,Golf,2003,2009,2.0 TDI,BKD,1968,4,Diesel,140,320,Manuelle 6,4x2,Compacte,5,5,1380,V Mk5
+Volkswagen,Golf,2003,2009,1.6 FSI,BAG,1598,4,Essence,115,155,Manuelle 5,4x2,Compacte,5,5,1295,V Mk5
+Volkswagen,Golf,2008,2014,1.6 TDI,CAYC,1598,4,Diesel,105,250,Manuelle 5,4x2,Compacte,5,5,1290,VI Mk6
+Volkswagen,Golf,2008,2014,2.0 TDI,CBDC,1968,4,Diesel,140,320,Manuelle 6,4x2,Compacte,5,5,1375,VI Mk6
+Volkswagen,Passat,2005,2010,1.9 TDI,BLS,1896,4,Diesel,105,250,Manuelle 6,4x2,Berline,4,5,1520,B6
+Volkswagen,Passat,2005,2010,2.0 TDI,BKP,1968,4,Diesel,140,320,Manuelle 6,4x2,Berline,4,5,1565,B6
+Fiat,Punto,2000,2012,1.2 8V,188A4,1242,4,Essence,60,102,Manuelle 5,4x2,Citadine,3,5,1035,II
+Fiat,Punto,2000,2012,1.3 JTD Multijet,199A3,1248,4,Diesel,75,190,Manuelle 5,4x2,Citadine,5,5,1110,III
+Fiat,Tipo,2015,2022,1.4,843A1,1368,4,Essence,95,127,Manuelle 5,4x2,Berline,4,5,1320,II
+Fiat,Tipo,2015,2022,1.6 Multijet,C73A,1598,4,Diesel,120,320,Manuelle 6,4x2,Berline,4,5,1435,II
