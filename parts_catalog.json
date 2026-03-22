@@ -1,0 +1,567 @@
+[
+  {
+    "part_id": "P001",
+    "fabricant": "LUK",
+    "ref_fabricant": "510009710",
+    "ref_fabricant2": "624309400",
+    "part_name": "Butée d'embrayage hydraulique",
+    "category": "Transmission",
+    "subcategory": "Embrayage",
+    "description": "Butée de débrayage hydraulique à commande hydraulique. Fournie avec le manchon de guidage. Montage sans démontage de la boîte de vitesses possible.",
+    "specifications": {
+      "Diamètre extérieur": "68 mm",
+      "Diamètre intérieur": "38 mm",
+      "Hauteur": "52 mm",
+      "Type": "Hydraulique",
+      "Liquide de préchargement": "Oui"
+    },
+    "weight_g": 420,
+    "notes": "Fourni avec le liquide de préchargement",
+    "oem_refs": {
+      "Renault": "8200398836",
+      "Dacia": "8200398836",
+      "Chevrolet": "96369978"
+    },
+    "equivs": {
+      "Valeo": "V10-1599"
+    },
+    "compatible_vehicles": [
+      "Renault Clio III 1.2 16V (2005–2012)",
+      "Renault Clio III 1.4 16V (2005–2012)",
+      "Renault Clio III 1.5 dCi 65/85ch (2005–2012)",
+      "Renault Modus 1.2 16V (2004–2012)",
+      "Renault Modus 1.5 dCi (2004–2012)",
+      "Dacia Logan 1.4 MPI (2004–2012)",
+      "Dacia Sandero 1.4 MPI (2008–2012)",
+      "Chevrolet Kalos 1.2 (2003–2008)"
+    ]
+  },
+  {
+    "part_id": "P002",
+    "fabricant": "VALEO",
+    "ref_fabricant": "804501",
+    "ref_fabricant2": "804502",
+    "part_name": "Kit embrayage 3 pièces K9K",
+    "category": "Transmission",
+    "subcategory": "Embrayage",
+    "description": "Kit complet disque + mécanisme + butée pour moteur K9K 1.5 dCi. Diamètre 225 mm. Boîte 5 et 6 rapports. Disque à amortisseurs caoutchouc.",
+    "specifications": {
+      "Diamètre disque": "225 mm",
+      "Épaisseur disque": "8.5 mm",
+      "Nb de cannelures": "20",
+      "Type boîte": "5 et 6 rapports",
+      "Code moteur": "K9K"
+    },
+    "weight_g": 2850,
+    "notes": "Vérifier le diamètre de la cloche avant commande",
+    "oem_refs": {
+      "Renault": "7701477990",
+      "Dacia": "7701477990"
+    },
+    "equivs": {
+      "Sachs": "3000 951 038",
+      "Febi": "V10-2235"
+    },
+    "compatible_vehicles": [
+      "Renault Clio III 1.5 dCi 65ch (2005–2012)",
+      "Renault Clio III 1.5 dCi 85ch (2005–2012)",
+      "Renault Clio III 1.5 dCi 105ch (2009–2012)",
+      "Renault Megane II 1.5 dCi (2003–2008)",
+      "Renault Logan 1.5 dCi (2006–2012)",
+      "Dacia Logan 1.5 dCi (2004–2012)",
+      "Dacia Sandero 1.5 dCi (2008–2012)",
+      "Dacia Duster 1.5 dCi (2010–2015)"
+    ]
+  },
+  {
+    "part_id": "P003",
+    "fabricant": "LUK",
+    "ref_fabricant": "623301309",
+    "ref_fabricant2": "",
+    "part_name": "Kit embrayage 3 pièces K9K 228mm",
+    "category": "Transmission",
+    "subcategory": "Embrayage",
+    "description": "Kit embrayage complet disque cannelé + mécanisme à membrane + butée hydraulique. Diamètre 228 mm. Pour K9K diesel phase 2.",
+    "specifications": {
+      "Diamètre disque": "228 mm",
+      "Épaisseur disque": "8.2 mm",
+      "Nb de cannelures": "20",
+      "Code moteur": "K9K",
+      "Phase": "2 (2010+)"
+    },
+    "weight_g": 2920,
+    "notes": "Ne pas confondre avec la version 225mm (phase 1)",
+    "oem_refs": {
+      "Renault": "8200638761",
+      "Dacia": "8200638761",
+      "Chevrolet": "96366099"
+    },
+    "equivs": {
+      "Sachs": "3000 951 032",
+      "Febi": "V10-2235"
+    },
+    "compatible_vehicles": [
+      "Renault Logan II 1.5 dCi 90ch (2013–2022)",
+      "Renault Sandero II 1.5 dCi (2013–2022)",
+      "Renault Megane III 1.5 dCi (2008–2015)",
+      "Dacia Duster 1.5 dCi 110ch (2010–2022)",
+      "Dacia Logan MCV 1.5 dCi (2006–2022)",
+      "Dacia Dokker 1.5 dCi (2012–2021)",
+      "Nissan Micra 1.5 dCi (2003–2010)",
+      "Nissan Note 1.5 dCi (2006–2012)"
+    ]
+  },
+  {
+    "part_id": "P004",
+    "fabricant": "BOSCH",
+    "ref_fabricant": "0986479387",
+    "ref_fabricant2": "",
+    "part_name": "Disque de frein avant ventilé",
+    "category": "Freinage",
+    "subcategory": "Disque avant",
+    "description": "Disque de frein avant ventilé. Traitement anticorrosion perma-shield. Pré-percé pour vis de fixation. Épaisseur minimale gravée sur la pièce.",
+    "specifications": {
+      "Diamètre": "259 mm",
+      "Épaisseur neuve": "22 mm",
+      "Épaisseur mini": "19 mm",
+      "Alésage centre": "66 mm",
+      "Type": "Ventilé",
+      "Nbre de trous": "4"
+    },
+    "weight_g": 3200,
+    "notes": "Toujours changer par paire (les deux côtés)",
+    "oem_refs": {
+      "Renault": "7701207850"
+    },
+    "equivs": {
+      "Febi": "23286",
+      "ATE": "24.0109-0106.1"
+    },
+    "compatible_vehicles": [
+      "Renault Clio II 1.2 16V (1998–2005)",
+      "Renault Clio II 1.4 16V (1998–2005)",
+      "Renault Clio II 1.5 dCi (2001–2005)",
+      "Renault Clio III 1.2 16V (2005–2009)",
+      "Renault Clio III 1.5 dCi (2005–2009)",
+      "Renault Modus 1.2 (2004–2010)",
+      "Renault Modus 1.5 dCi (2004–2010)",
+      "Renault Megane I 1.4 (1999–2002)"
+    ]
+  },
+  {
+    "part_id": "P005",
+    "fabricant": "BOSCH",
+    "ref_fabricant": "0986494730",
+    "ref_fabricant2": "",
+    "part_name": "Plaquettes de frein avant",
+    "category": "Freinage",
+    "subcategory": "Plaquettes avant",
+    "description": "Plaquettes de frein avant avec témoin d'usure sonore intégré. Garnitures basse émission de poussière. Certifiées ECE R90. Kit de montage inclus (graisse et vis).",
+    "specifications": {
+      "Longueur": "116 mm",
+      "Hauteur": "52.5 mm",
+      "Épaisseur garniture": "17 mm",
+      "Avec témoin usure": "Oui",
+      "Certification": "ECE R90"
+    },
+    "weight_g": 520,
+    "notes": "Kit de montage (graisse + vis) inclus",
+    "oem_refs": {
+      "Renault": "7701208040"
+    },
+    "equivs": {
+      "Valeo": "671921",
+      "Ferodo": "FDB1302",
+      "TRW": "GDB1302"
+    },
+    "compatible_vehicles": [
+      "Renault Clio III 1.2 16V (2005–2012)",
+      "Renault Clio III 1.4 16V (2005–2012)",
+      "Renault Clio III 1.5 dCi (2005–2012)",
+      "Renault Clio III 1.6 16V (2005–2012)",
+      "Renault Megane II 1.5 dCi (2003–2008)",
+      "Renault Scenic II 1.5 dCi (2003–2009)",
+      "Dacia Logan 1.4 (2004–2012)",
+      "Dacia Logan 1.6 (2004–2012)",
+      "Dacia Sandero 1.4 (2008–2012)",
+      "Dacia Sandero 1.6 (2008–2012)"
+    ]
+  },
+  {
+    "part_id": "P006",
+    "fabricant": "MANN",
+    "ref_fabricant": "HU7157X",
+    "ref_fabricant2": "",
+    "part_name": "Filtre à huile moteur K9K",
+    "category": "Filtration",
+    "subcategory": "Filtre à huile",
+    "description": "Filtre à huile à haute capacité filtrante. Média filtrant synthétique multi-couches. Joint torique EPDM inclus. Valve anti-retour.",
+    "specifications": {
+      "Hauteur": "86 mm",
+      "Diamètre extérieur": "76 mm",
+      "Diamètre intérieur": "62 mm",
+      "Filetage": "M20x1.5",
+      "Couple de serrage": "20–25 Nm"
+    },
+    "weight_g": 180,
+    "notes": "Remplacer à chaque vidange (max 10 000 km ou 1 an)",
+    "oem_refs": {
+      "Renault": "8200768913",
+      "Dacia": "8200768913",
+      "Nissan": "15208-00Q0A"
+    },
+    "equivs": {
+      "Bosch": "P3307",
+      "Purflux": "LS926",
+      "Mecafilter": "ELH4421"
+    },
+    "compatible_vehicles": [
+      "Renault Clio II 1.5 dCi (2001–2005)",
+      "Renault Clio III 1.5 dCi (2005–2012)",
+      "Renault Logan I 1.5 dCi (2004–2012)",
+      "Renault Logan II 1.5 dCi (2013–2022)",
+      "Renault Megane II 1.5 dCi (2002–2008)",
+      "Renault Megane III 1.5 dCi (2008–2015)",
+      "Renault Kangoo 1.5 dCi (2001–2021)",
+      "Renault Scenic II 1.5 dCi (2003–2009)",
+      "Dacia Logan 1.5 dCi (2004–2022)",
+      "Dacia Sandero 1.5 dCi (2008–2022)",
+      "Dacia Duster 1.5 dCi (2010–2022)",
+      "Nissan Micra 1.5 dCi (2003–2010)",
+      "Nissan Note 1.5 dCi (2006–2012)"
+    ]
+  },
+  {
+    "part_id": "P007",
+    "fabricant": "CONTITECH",
+    "ref_fabricant": "CT1028K2",
+    "ref_fabricant2": "",
+    "part_name": "Kit distribution K9K",
+    "category": "Moteur",
+    "subcategory": "Distribution",
+    "description": "Kit courroie de distribution complet pour moteur K9K diesel. Courroie crantée HNBR + 2 galets tendeurs + 1 galet enrouleur. Résistance thermique et mécanique optimale.",
+    "specifications": {
+      "Longueur courroie": "1305 mm",
+      "Largeur": "25.4 mm",
+      "Nombre de dents": "105",
+      "Contenu kit": "Courroie + 2 galets + enrouleur",
+      "Code moteur": "K9K"
+    },
+    "weight_g": 380,
+    "notes": "Remplacer aussi la pompe à eau si > 100 000 km",
+    "oem_refs": {
+      "Renault": "7711134099",
+      "Dacia": "7711134099"
+    },
+    "equivs": {
+      "Gates": "K015479XS",
+      "Bosch": "1987948507",
+      "Dayco": "KTB372"
+    },
+    "compatible_vehicles": [
+      "Renault Clio III 1.5 dCi (2005–2012)",
+      "Renault Megane II 1.5 dCi (2003–2008)",
+      "Renault Megane III 1.5 dCi (2008–2015)",
+      "Renault Logan 1.5 dCi (2004–2022)",
+      "Renault Kangoo 1.5 dCi (2001–2021)",
+      "Renault Scenic II 1.5 dCi (2003–2009)",
+      "Dacia Logan 1.5 dCi (2004–2022)",
+      "Dacia Sandero 1.5 dCi (2008–2022)",
+      "Dacia Duster 1.5 dCi (2010–2022)",
+      "Nissan Micra 1.5 dCi (2003–2010)"
+    ]
+  },
+  {
+    "part_id": "P008",
+    "fabricant": "KYB",
+    "ref_fabricant": "334812",
+    "ref_fabricant2": "",
+    "part_name": "Amortisseur avant gauche",
+    "category": "Suspension",
+    "subcategory": "Amortisseur avant",
+    "description": "Amortisseur avant gauche à pression de gaz monotube. Réponse précise et progressivité améliorée. Traitement anticorrosion bicouche. Gamme Excel-G.",
+    "specifications": {
+      "Longueur totale": "490 mm",
+      "Diamètre bague supérieure": "12 mm",
+      "Diamètre bague inférieure": "12 mm",
+      "Type": "Monotube gaz",
+      "Côté": "Gauche"
+    },
+    "weight_g": 1850,
+    "notes": "Changer toujours par paire (gauche + droit)",
+    "oem_refs": {
+      "Renault": "8200492073"
+    },
+    "equivs": {
+      "Sachs": "115419",
+      "Monroe": "G8093",
+      "Bilstein": "B4"
+    },
+    "compatible_vehicles": [
+      "Renault Clio III 1.2 16V (2005–2012)",
+      "Renault Clio III 1.4 16V (2005–2012)",
+      "Renault Clio III 1.5 dCi (2005–2012)",
+      "Renault Clio III 1.6 16V (2005–2012)",
+      "Renault Modus 1.2 (2004–2012)",
+      "Renault Modus 1.4 (2004–2012)",
+      "Renault Modus 1.5 dCi (2004–2012)"
+    ]
+  },
+  {
+    "part_id": "P009",
+    "fabricant": "BOSCH",
+    "ref_fabricant": "1987948132",
+    "ref_fabricant2": "",
+    "part_name": "Kit distribution DW10 HDi",
+    "category": "Moteur",
+    "subcategory": "Distribution",
+    "description": "Kit distribution pour moteur 2.0 HDi DW10. Courroie crantée renforcée + tendeur hydraulique + galet enrouleur. Résistance aux hautes températures.",
+    "specifications": {
+      "Longueur courroie": "1456 mm",
+      "Code moteur": "DW10",
+      "Cylindrée": "2.0 HDi",
+      "Contenu": "Courroie + tendeur + galet"
+    },
+    "weight_g": 380,
+    "notes": "Moteur DW10 2.0 HDi uniquement — vérifier code moteur",
+    "oem_refs": {
+      "Peugeot": "1609586880",
+      "Citroën": "1609586880"
+    },
+    "equivs": {
+      "Febi": "25706",
+      "Contitech": "CT1007K2",
+      "Gates": "K015416XS"
+    },
+    "compatible_vehicles": [
+      "Peugeot 206 2.0 HDi (1999–2008)",
+      "Peugeot 306 2.0 HDi (1999–2002)",
+      "Peugeot 307 2.0 HDi (2001–2008)",
+      "Peugeot 406 2.0 HDi (1999–2004)",
+      "Citroën C5 2.0 HDi (2001–2008)",
+      "Citroën Berlingo 2.0 HDi (1999–2008)",
+      "Citroën Xsara 2.0 HDi (1999–2005)"
+    ]
+  },
+  {
+    "part_id": "P010",
+    "fabricant": "FEBI",
+    "ref_fabricant": "23050",
+    "ref_fabricant2": "",
+    "part_name": "Disque de frein avant Peugeot/Citroën",
+    "category": "Freinage",
+    "subcategory": "Disque avant",
+    "description": "Disque de frein avant ventilé. Traitement de surface haute qualité anticorrosion. Conforme aux spécifications OEM. Épaisseur minimale gravée.",
+    "specifications": {
+      "Diamètre": "266 mm",
+      "Épaisseur neuve": "22 mm",
+      "Épaisseur mini": "20 mm",
+      "Alésage centre": "66 mm",
+      "Type": "Ventilé"
+    },
+    "weight_g": 3100,
+    "notes": "Changer par paire obligatoirement",
+    "oem_refs": {
+      "Peugeot": "4246J0",
+      "Citroën": "4246J0"
+    },
+    "equivs": {
+      "Bosch": "0986479041",
+      "ATE": "24.0125-0145.1",
+      "Brembo": "09.7854.11"
+    },
+    "compatible_vehicles": [
+      "Peugeot 206 1.4 HDi (2002–2008)",
+      "Peugeot 206 1.6 HDi (2004–2008)",
+      "Peugeot 206 2.0 HDi (1999–2008)",
+      "Peugeot 206 1.1 (2000–2008)",
+      "Peugeot 206 1.4 (1998–2008)",
+      "Peugeot 207 1.4 (2006–2009)",
+      "Citroën C3 1.4 HDi (2002–2009)",
+      "Citroën C3 1.6 HDi (2004–2009)",
+      "Citroën Xsara 1.4 HDi (2001–2004)"
+    ]
+  },
+  {
+    "part_id": "P011",
+    "fabricant": "VALEO",
+    "ref_fabricant": "836155",
+    "ref_fabricant2": "",
+    "part_name": "Kit embrayage 3 pièces TU3/TU5",
+    "category": "Transmission",
+    "subcategory": "Embrayage",
+    "description": "Kit complet disque + mécanisme + butée pour moteur TU3/TU5 1.4/1.6 Peugeot/Citroën. Diamètre 200mm. Boîte MA et BE.",
+    "specifications": {
+      "Diamètre disque": "200 mm",
+      "Épaisseur disque": "7.8 mm",
+      "Nb de cannelures": "18",
+      "Code moteur": "TU3 / TU5",
+      "Boîte compatible": "MA / BE"
+    },
+    "weight_g": 2200,
+    "notes": "Vérifier le code moteur sur la plaque constructeur",
+    "oem_refs": {
+      "Peugeot": "1224G6",
+      "Citroën": "1224G6"
+    },
+    "equivs": {
+      "Sachs": "3000 801 024",
+      "LUK": "624144209"
+    },
+    "compatible_vehicles": [
+      "Peugeot 206 1.4 (1998–2010)",
+      "Peugeot 206 1.6 (1998–2010)",
+      "Peugeot 207 1.4 (2006–2015)",
+      "Peugeot 207 1.6 (2006–2015)",
+      "Citroën C3 1.4 (2002–2009)",
+      "Citroën C3 1.6 (2005–2009)",
+      "Citroën Xsara 1.4 (1997–2004)",
+      "Citroën Saxo 1.4 (1996–2003)"
+    ]
+  },
+  {
+    "part_id": "P012",
+    "fabricant": "MANN",
+    "ref_fabricant": "W719/30",
+    "ref_fabricant2": "",
+    "part_name": "Filtre à huile Peugeot/Citroën HDi",
+    "category": "Filtration",
+    "subcategory": "Filtre à huile",
+    "description": "Filtre à huile centrifuge à haute capacité. Technologie SpinOn avec valve anti-retour intégrée. Joint torique EPDM inclus.",
+    "specifications": {
+      "Hauteur": "77 mm",
+      "Diamètre extérieur": "76 mm",
+      "Diamètre intérieur": "66 mm",
+      "Filetage": "M20x1.5"
+    },
+    "weight_g": 175,
+    "notes": "Compatible toutes versions HDi 1.4 et 1.6",
+    "oem_refs": {
+      "Peugeot": "1109AJ",
+      "Citroën": "1109AJ"
+    },
+    "equivs": {
+      "Bosch": "P9448",
+      "Purflux": "LS907",
+      "Mecafilter": "ELH4241"
+    },
+    "compatible_vehicles": [
+      "Peugeot 206 1.4 HDi (2002–2008)",
+      "Peugeot 206 1.6 HDi (2004–2008)",
+      "Peugeot 207 1.4 HDi (2006–2015)",
+      "Peugeot 207 1.6 HDi (2006–2015)",
+      "Peugeot 308 1.6 HDi (2007–2013)",
+      "Citroën C3 1.4 HDi (2002–2015)",
+      "Citroën Berlingo 1.6 HDi (2002–2021)",
+      "Citroën C4 1.6 HDi (2004–2010)",
+      "Citroën Picasso 1.6 HDi (2004–2013)"
+    ]
+  },
+  {
+    "part_id": "P013",
+    "fabricant": "LUK",
+    "ref_fabricant": "624309700",
+    "ref_fabricant2": "",
+    "part_name": "Kit embrayage 3 pièces G4EC/G4FC",
+    "category": "Transmission",
+    "subcategory": "Embrayage",
+    "description": "Kit embrayage complet pour moteurs G4EC/G4FC Hyundai/Kia. Diamètre 215mm. Disque à amortisseurs caoutchouc, mécanisme auto-centrant.",
+    "specifications": {
+      "Diamètre disque": "215 mm",
+      "Épaisseur disque": "8 mm",
+      "Nb de cannelures": "22",
+      "Code moteur": "G4EC / G4FC"
+    },
+    "weight_g": 2400,
+    "notes": "Code moteur sur la plaque sous le capot",
+    "oem_refs": {
+      "Hyundai": "41200-32840",
+      "Kia": "41200-32840"
+    },
+    "equivs": {
+      "Sachs": "3000 953 088",
+      "Valeo": "826571"
+    },
+    "compatible_vehicles": [
+      "Hyundai Accent 1.4 MPI (2006–2017)",
+      "Hyundai Accent 1.6 MPI (2006–2017)",
+      "Hyundai i20 1.4 (2008–2014)",
+      "Hyundai Elantra 1.6 (2011–2016)",
+      "Kia Rio 1.4 MPI (2005–2017)",
+      "Kia Rio 1.6 MPI (2005–2017)",
+      "Kia Ceed 1.4 (2006–2012)",
+      "Kia Ceed 1.6 (2006–2012)"
+    ]
+  },
+  {
+    "part_id": "P014",
+    "fabricant": "SACHS",
+    "ref_fabricant": "3000951041",
+    "ref_fabricant2": "",
+    "part_name": "Kit embrayage 3 pièces K4M/K7M",
+    "category": "Transmission",
+    "subcategory": "Embrayage",
+    "description": "Kit embrayage complet pour moteur K4M/K7M 1.4/1.6 essence Renault/Dacia. Diamètre 228mm. Disque à friction progressive, mécanisme renforcé.",
+    "specifications": {
+      "Diamètre disque": "228 mm",
+      "Épaisseur disque": "8.4 mm",
+      "Code moteur": "K4M / K7M"
+    },
+    "weight_g": 2750,
+    "notes": "K4M=1.6 16V — K7M=1.6 8V — vérifier code moteur",
+    "oem_refs": {
+      "Renault": "8200049816"
+    },
+    "equivs": {
+      "LUK": "623285200",
+      "Valeo": "826730"
+    },
+    "compatible_vehicles": [
+      "Renault Clio III 1.6 16V (2005–2012)",
+      "Renault Megane II 1.6 (2002–2008)",
+      "Renault Scenic II 1.6 (2003–2009)",
+      "Dacia Logan 1.6 MPI (2004–2022)",
+      "Dacia Sandero 1.6 (2008–2022)",
+      "Dacia Duster 1.6 16V (2010–2022)",
+      "Dacia Logan MCV 1.6 (2006–2022)"
+    ]
+  },
+  {
+    "part_id": "P015",
+    "fabricant": "BOSCH",
+    "ref_fabricant": "1987948507",
+    "ref_fabricant2": "",
+    "part_name": "Courroie de distribution K9K",
+    "category": "Moteur",
+    "subcategory": "Distribution",
+    "description": "Courroie de distribution crantée pour moteur K9K diesel. Matériau HNBR haute résistance à la chaleur et à l'usure. Dents façonnées avec précision.",
+    "specifications": {
+      "Longueur": "1305 mm",
+      "Largeur": "25.4 mm",
+      "Nb de dents": "105",
+      "Matériau": "HNBR",
+      "Code moteur": "K9K"
+    },
+    "weight_g": 260,
+    "notes": "Toujours remplacer le kit complet (courroie + galets)",
+    "oem_refs": {
+      "Renault": "7711134099",
+      "Dacia": "7711134099"
+    },
+    "equivs": {
+      "Gates": "5545XS",
+      "Contitech": "CT1028",
+      "Dayco": "941042"
+    },
+    "compatible_vehicles": [
+      "Renault Clio III 1.5 dCi (2005–2012)",
+      "Renault Megane II 1.5 dCi (2003–2008)",
+      "Renault Megane III 1.5 dCi (2008–2015)",
+      "Renault Logan 1.5 dCi (2004–2022)",
+      "Dacia Logan 1.5 dCi (2004–2022)",
+      "Dacia Sandero 1.5 dCi (2008–2022)",
+      "Dacia Duster 1.5 dCi (2010–2022)",
+      "Nissan Micra 1.5 dCi (2003–2010)"
+    ]
+  }
+]
